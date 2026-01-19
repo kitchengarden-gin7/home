@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>取扱商品 - KITCHEN GARDEN 銀七</title>
+    <style>
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #3d4439; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #fdfdfb; }
+        header { text-align: center; padding: 40px 20px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 20px; }
+        h1 { margin: 0; font-size: 1.8em; letter-spacing: 0.15em; }
+        nav { text-align: center; margin-bottom: 30px; }
+        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; padding: 5px 10px; }
+        .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+        .card img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .item-name { font-size: 1.2em; font-weight: bold; margin: 0 0 10px 0; color: #333; }
+        .item-desc { font-size: 0.9em; color: #666; margin-bottom: 15px; flex-grow: 1; }
+        .item-footer { border-top: 1px solid #eee; padding-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .price { color: #b22222; font-weight: bold; font-size: 1.2em; }
+        .stock { font-size: 0.85em; background: #e9ede8; color: #556b2f; padding: 3px 10px; border-radius: 20px; }
+        footer { text-align: center; margin-top: 60px; font-size: 0.8em; color: #888; }
+    </style>
+</head>
+<body>
+    <header><h1>KITCHEN GARDEN 銀七</h1></header>
+    <nav>
+        <a href="index.html">ホーム</a>
+        <a href="items.html">取扱商品</a>
+    </nav>
 
+    <div id="item-container" class="item-grid">読み込み中...</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        // ★ここに「ウェブに公開」で取得したCSVのURLを貼り付けてください
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/1dFwJPHRMbpH7wAcmKVOyIkH_-S3fsWk8/edit?gid=775493931#gid=775493931';
+
+        Papa.parse(csvUrl, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                const data = results.data;
+                const container = document.getElementById('item-container');
+                container.innerHTML = '';
+                
+                data.forEach(item => {
+                    // 名前が入っていない行は飛ばす
+                    if(!item.name) return;
+
+                    container.innerHTML += `
+                        <div class="card">
+                            <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.jp/24/556b2f/ffffff/400x300.png?text=No%20Image'">
+                            <div class="card-body">
+                                <h3 class="item-name">${item.name}</h3>
+                                <p class="item-desc">${item.description}</p>
+                                <div class="item-footer">
+                                    <span class="price">${item.price}</span>
+                                    <span class="stock">在庫：${item.stock}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        });
+    </script>
+    <footer>&copy; 2026 KITCHEN GARDEN 銀七</footer>
+</body>
+</html>
