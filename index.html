@@ -6,17 +6,17 @@
     <title>KITCHEN GARDEN 銀七</title>
     <style>
         body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #3d4439; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fdfdfb; }
-        header { text-align: center; padding: 60px 20px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 30px; }
-        h1 { margin: 0; font-size: 2.0em; letter-spacing: 0.15em; }
-        .subtitle { font-size: 0.9em; opacity: 0.9; margin-top: 10px; font-weight: normal; }
+        header { text-align: center; padding: 40px 20px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 20px; }
+        h1 { margin: 0; font-size: 1.8em; letter-spacing: 0.15em; }
+        nav { text-align: center; margin-bottom: 30px; }
+        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; padding: 5px 10px; border-bottom: 2px solid transparent; }
+        nav a:hover { border-bottom: 2px solid #556b2f; }
         .content { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         h2 { color: #556b2f; border-bottom: 2px solid #cbd6c8; padding-bottom: 8px; font-size: 1.4em; margin-top: 40px; }
-        .intro-text { font-size: 1.05em; color: #2c312a; margin-bottom: 30px; }
-        .origin-story { background-color: #f4f7f2; padding: 25px; border-radius: 10px; margin: 30px 0; color: #444; font-size: 0.95em; }
-        .specialty { background-color: #fafafa; padding: 20px; border-radius: 10px; border-left: 4px solid #8fbc8f; margin: 20px 0; }
+        .img-container { text-align: center; margin: 20px 0; }
+        .small-img { width: 100%; max-width: 400px; height: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .specialty { background: #fafafa; padding: 20px; border-radius: 10px; border-left: 4px solid #8fbc8f; margin: 20px 0; }
         .tag { font-size: 0.85em; background: #e9ede8; color: #556b2f; padding: 2px 10px; border-radius: 5px; margin-right: 5px; display: inline-block; }
-        .main-img { width: 100%; height: auto; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .sub-img { width: 100%; max-width: 500px; height: auto; border-radius: 10px; display: block; margin: 20px auto; }
         .profile { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; text-align: right; }
         .contact-btn { display: inline-block; background: #556b2f; color: white; padding: 12px 35px; text-decoration: none; border-radius: 30px; margin-top: 20px; font-weight: bold; }
         footer { text-align: center; margin-top: 60px; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
@@ -25,46 +25,41 @@
 <body>
     <header>
         <h1>KITCHEN GARDEN 銀七</h1>
-        <p class="subtitle">（ぎんしち）</p>
     </header>
 
-    <div class="content">
-        <img src="kanban.jpg" alt="銀七の看板" class="main-img">
+    <nav>
+        <a href="index.html">ホーム</a>
+        <a href="items.html">取扱商品</a>
+    </nav>
 
-        <p class="intro-text">
-            <strong>自分の手で、暮らしを育てる。</strong><br>
-            「KITCHEN GARDEN」は、ささやかな自給自足の楽しみを分かち合う場所として始まりました。
-        </p>
+    <div class="content">
+        <div class="img-container">
+            <img src="kanban.jpg" alt="銀七の看板" class="small-img">
+        </div>
+
+        <p><strong>自分の手で、暮らしを育てる。</strong><br>
+        「KITCHEN GARDEN」は、ささやかな自給自足の楽しみを分かち合う場所として始まりました。</p>
         
-        <p>
-            かつて海外の農村で過ごした日々の中で、ものを大切に使い、自分の食べるものを育て、生活を自分の手で整えることの豊かさを学びました。<br>
-            現在は自身の土地で野菜や苗木を育てながら、福祉の現場にも身を置いています。
-        </p>
+        <p>かつて海外の農村で過ごした日々の中で、ものを大切に使い、生活を自分の手で整えることの豊かさを学びました。現在は自身の土地で野菜や苗木を育てながら、福祉の現場にも身を置いています。</p>
 
         <div class="origin-story">
-            <strong>名前の由来</strong><br>
-            「銀七（ぎんしち）」は、私の祖父の名前です。看板にその名を残すことで、かつてこの地に暮らし、共に歩んだ人々の息遣いや共有の思い出を未来へ繋いでいきたいと願っています。
+            <h2>名前の由来</h2>
+            <p>「銀七（ぎンしち）」は、私の祖父の名前です。看板にその名を残すことで、かつてこの地に暮らし、共に歩んだ人々の記憶を未来へ繋いでいきたいと願っています。</p>
         </div>
 
         <h2>お手伝いできること</h2>
-
         <div class="specialty">
             <strong>草花・バラの管理と造園</strong><br>
-            <span class="tag">造園技能士1級</span><br>
-            長年培ってきた経験をもとに、バラや季節の草花の丁寧な手入れ、お庭の景観を整えるお手伝いをいたします。
+            <span class="tag">造園技能士1級</span>
         </div>
 
-        <img src="ueki.jpg" alt="苗木の様子" class="sub-img">
+        <div class="img-container">
+            <img src="ueki.jpg" alt="苗木の様子" class="small-img">
+        </div>
 
         <div class="specialty">
             <strong>樹木の健康相談・治療</strong><br>
-            <span class="tag">樹木医</span><br>
-            庭木の元気がなくなってしまった時など、一本一株の命に向き合い、適切な処置やアドバイスを行います。
-        </div>
-
-        <div class="specialty">
-            <strong>野菜苗・苗木の生産販売</strong><br>
-            家庭菜園から始められる野菜苗や、この土地に馴染む苗木をじっくりと育てて販売しています。
+            <span class="tag">樹木医</span>
         </div>
 
         <div class="profile">
@@ -72,13 +67,9 @@
         </div>
 
         <h2>お問い合わせ</h2>
-        <p>庭木や草花のご相談、苗木についてはメールでお気軽にお声がけください。</p>
         <a href="mailto:kitchengarden.gin7@gmail.com" class="contact-btn">メールを送る</a>
-        <p style="font-size: 0.8em; margin-top: 15px; color: #999;">Email: kitchengarden.gin7@gmail.com</p>
     </div>
 
-    <footer>
-        &copy; 2026 KITCHEN GARDEN 銀七
-    </footer>
+    <footer>&copy; 2026 KITCHEN GARDEN 銀七</footer>
 </body>
 </html>
