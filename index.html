@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KITCHEN GARDEN 銀七</title>
+    <title>雑感 - KITCHEN GARDEN 銀七</title>
     <style>
         body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #3d4439; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fdfdfb; }
         header { text-align: center; padding: 40px 20px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 20px; }
@@ -11,14 +11,17 @@
         nav { text-align: center; margin-bottom: 30px; }
         nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; padding: 5px 10px; border-bottom: 2px solid transparent; }
         nav a:hover { border-bottom: 2px solid #556b2f; }
+        
         .content { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        h2 { color: #556b2f; border-bottom: 2px solid #cbd6c8; padding-bottom: 8px; font-size: 1.4em; margin-top: 40px; }
-        .img-container { text-align: center; margin: 20px 0; }
-        .small-img { width: 100%; max-width: 400px; height: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .specialty { background: #fafafa; padding: 20px; border-radius: 10px; border-left: 4px solid #8fbc8f; margin: 20px 0; }
-        .tag { font-size: 0.85em; background: #e9ede8; color: #556b2f; padding: 2px 10px; border-radius: 5px; margin-right: 5px; display: inline-block; }
-        .profile { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; text-align: right; }
-        .contact-btn { display: inline-block; background: #556b2f; color: white; padding: 12px 35px; text-decoration: none; border-radius: 30px; margin-top: 20px; font-weight: bold; }
+        
+        /* 記事のスタイル */
+        .blog-post { margin-bottom: 60px; border-bottom: 1px solid #eee; padding-bottom: 40px; }
+        .blog-post:last-child { border-bottom: none; }
+        .post-date { color: #888; font-size: 0.9em; }
+        .post-title { color: #556b2f; font-size: 1.5em; margin: 10px 0; }
+        .post-content { margin-top: 20px; }
+        .post-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; margin: 20px 0; }
+
         footer { text-align: center; margin-top: 60px; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
 </head>
@@ -30,45 +33,20 @@
     <nav>
         <a href="index.html">ホーム</a>
         <a href="items.html">取扱商品</a>
+        <a href="blog.html">雑感</a>
     </nav>
 
     <div class="content">
-        <div class="img-container">
-            <img src="kanban.jpg" alt="銀七の看板" class="small-img">
+        <article class="blog-post">
+            <div class="post-date">2026.01.19</div>
+            <h2 class="post-title">ホームページを新しくしました</h2>
+            <div class="post-content">
+                <p>日々の農作業の合間に、少しずつ準備を進めてきたホームページがようやく形になりました。ここでは、植物のことや、日々の暮らしの中で感じたことを気ままに綴っていこうと思います。</p>
+                <img src="kanban.jpg" class="post-img" alt="ブログ画像例">
+                <p>祖父の名を冠したこの場所が、誰かの安らぎや、小さな発見のきっかけになれば幸いです。</p>
+            </div>
+        </article>
         </div>
-
-        <p><strong>自分の手で、暮らしを育てる。</strong><br>
-        「KITCHEN GARDEN」は、ささやかな自給自足の楽しみを分かち合う場所として始まりました。</p>
-        
-        <p>かつて海外の農村で過ごした日々の中で、ものを大切に使い、生活を自分の手で整えることの豊かさを学びました。現在は自身の土地で野菜や苗木を育てながら、福祉の現場にも身を置いています。</p>
-
-        <div class="origin-story">
-            <h2>名前の由来</h2>
-            <p>「銀七（ぎンしち）」は、私の祖父の名前です。看板にその名を残すことで、かつてこの地に暮らし、共に歩んだ人々の記憶を未来へ繋いでいきたいと願っています。</p>
-        </div>
-
-        <h2>お手伝いできること</h2>
-        <div class="specialty">
-            <strong>草花・バラの管理と造園</strong><br>
-            <span class="tag">造園技能士1級</span>
-        </div>
-
-        <div class="img-container">
-            <img src="ueki.jpg" alt="苗木の様子" class="small-img">
-        </div>
-
-        <div class="specialty">
-            <strong>樹木の健康相談・治療</strong><br>
-            <span class="tag">樹木医</span>
-        </div>
-
-        <div class="profile">
-            <p><strong>KITCHEN GARDEN 店主<br>KOICHI SATO</strong></p>
-        </div>
-
-        <h2>お問い合わせ</h2>
-        <a href="mailto:kitchengarden.gin7@gmail.com" class="contact-btn">メールを送る</a>
-    </div>
 
     <footer>&copy; 2026 KITCHEN GARDEN 銀七</footer>
 </body>
