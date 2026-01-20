@@ -31,25 +31,54 @@
         <a href="items.html">取扱商品</a>
         <a href="blog.html">雑感</a>
     </nav>
-<div class="content">
 
-        <div class="blog-post">
-            <div class="date">2026年1月20日</div>
-            <h2>柿酢のにおい</h2>
-            <p>そろそろ柿酢のにおいが落ち着いてきました、熊に取られる前にと思ってすべて収穫してしまった柿の実でしたがあまりたくさんあったので今年は全部柿酢にしてしまいました。そろそろ3ヶ月経ったでしょうか美味しいお酢になってるといいな・・</p>
-        </div>
-    <div class="content">
-        <div class="blog-post">
-            <div class="date">2026年1月19日</div>
-            <h2>雑感を始めます</h2>
-            <p>日々の暮らしや、樹木医として感じたこと、庭仕事の合間に考えたことなどを少しずつ書き残していこうと思います。まずはホームページが形になったことを嬉しく思います。</p>
-            <div class="img-container">
-                <img src="kanban.jpg" alt="風景" class="small-img">
-            </div>
-        </div>
-
-        </div>
+    <div id="blog-container" class="content">
+        <p style="text-align: center; color: #999;">雑感を読み込み中...</p>
+    </div>
 
     <footer>&copy; 2026 KITCHEN GARDEN 銀七</footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        // ★ここにGoogleスプレッドシートの「公開URL(CSV)」を貼り付けてください★
+        const blogCsvUrl = 'ここにコピーしたURLを貼り付け';
+
+        Papa.parse(blogCsvUrl, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                const data = results.data;
+                const container = document.getElementById('blog-container');
+                container.innerHTML = '';
+                
+                // 新しい記事を一番上にする
+                data.reverse();
+
+                data.forEach(post => {
+                    // タイトルが空でなければ表示
+                    if(post.title && post.title.trim() !== "") {
+                        let imgHtml = '';
+                        // 画像URLがある場合のみ表示
+                        if(post.image && post.image.trim() !== "") {
+                            imgHtml = `<div class="img-container"><img src="${post.image}" class="small-img" alt="${post.title}"></div>`;
+                        }
+
+                        container.innerHTML += `
+                            <div class="blog-post">
+                                <div class="date">${post.date}</div>
+                                <h2>${post.title}</h2>
+                                <p>${post.content.replace(/\n/g, '<br>')}</p>
+                                ${imgHtml}
+                            </div>
+                        `;
+                    }
+                });
+            },
+            error: function() {
+                document.getElementById('blog-container').innerHTML = '<p>読み込みに失敗しました。URLを確認してください。</p>';
+            }
+        });
+    </script>
 </body>
 </html>
