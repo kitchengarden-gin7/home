@@ -61,7 +61,12 @@
                 const grid = document.getElementById('item-grid');
                 grid.innerHTML = '';
 
+                // ★ここに以下の2行を追加します
+                // カテゴリー順（あいうえお順）に並べ替える
+                data.sort((a, b) => (a.category || "").localeCompare(b.category || "", 'ja'));
+
                 data.forEach(item => {
+                    // ...（ここから下の処理はそのまま）
                     if(item.title && item.title.trim() !== "") {
                         // 画像の処理
                         const imgSrc = item.image ? item.image.trim() : "";
