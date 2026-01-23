@@ -13,11 +13,12 @@
         /* 商品カードの並び */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; padding: 20px 0; }
         .item-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 1px solid #eee; display: flex; flex-direction: column; }
-       .item-image {
-    width: 100%;
-    height: 200px;
-    object-fit: contain; /* これが「全体が収まるように小さくする」という命令です */
-    background-color: #f0f0f0; /* 余白を薄いグレーにして見やすくします */
+      .item-image {
+    width: 80%;           /* 横幅を少し狭くします */
+    height: 180px;        /* 高さを決めてあげます */
+    display: block;       /* 真ん中に寄せるための準備です */
+    margin: 0 auto;       /* これで写真が真ん中に来ます */
+    object-fit: contain;  /* 縦横比を保ったまま枠に収めます */
 }
         .item-info { padding: 15px; flex-grow: 1; }
         
