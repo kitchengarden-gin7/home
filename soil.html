@@ -37,8 +37,12 @@
         .radio-group input[type="radio"] { margin-right: 12px; width: 18px; height: 18px; accent-color: #556b2f; }
         .radio-group input[type="radio"]:checked + span { color: #556b2f; }
         
-        /* カスタム入力枠のスタイル */
+        /* カスタム入力枠 & 早見表のスタイル */
         .custom-target-box { background: #f7faf6; border: 1px dashed #8fbc8f; padding: 15px; border-radius: 8px; margin-top: 10px; display: none; }
+        .quick-reference { margin-top: 15px; background: white; border: 1px solid #cbd6c8; border-radius: 6px; padding: 12px; font-size: 12px; }
+        .quick-reference table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        .quick-reference th, .quick-reference td { border-bottom: 1px solid #eee; padding: 6px 4px; text-align: left; }
+        .quick-reference th { color: #556b2f; font-weight: bold; border-bottom: 2px solid #cbd6c8; }
         
         .calc-btn { width: 100%; padding: 15px; background-color: #8fbc8f; color: white; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
         .calc-btn:hover { background-color: #556b2f; }
@@ -77,7 +81,7 @@
             </ul>
         </div>
         
-        <!-- 診断の目的（別枠用の自由設定を追加） -->
+        <!-- 診断の目的 -->
         <div class="input-group">
             <label class="main-label">● 診断の目的（当てはまるものを1つ選択）</label>
             <div class="radio-group">
@@ -88,7 +92,7 @@
                 <label class="radio-label" style="border-color: #8fbc8f; background: #f4f8f3;"><input type="radio" name="purpose" value="custom" id="purposeCustom" onclick="toggleCustomInput(true)"><span>⚙️ 別枠設定（自分で目標値を決める）</span></label>
             </div>
             
-            <!-- 自由設定用の数値入力枠（隠し要素、選択時のみ開く） -->
+            <!-- 自由設定用の数値入力枠 ＆ 指標早見表 -->
             <div class="custom-target-box" id="customTargetBox">
                 <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold; color: #435424;">↓ 独自の目標値を入力してください</p>
                 <div class="flex-inputs">
@@ -101,10 +105,62 @@
                         <input type="number" id="customEC" value="0.40" step="0.01">
                     </div>
                 </div>
-                <div style="margin-top: 10px;">
+                <div style="margin-top: 12px;">
                     <label class="main-label" style="font-size:12px; margin-bottom:4px;">計算のベース単位:</label>
                     <input type="radio" name="customUnit" value="pot" checked style="accent-color: #556b2f;"> <span style="font-size:13px; font-weight:bold; margin-right:15px;">ポット (10L基準)</span>
                     <input type="radio" name="customUnit" value="field" style="accent-color: #556b2f;"> <span style="font-size:13px; font-weight:bold;">畑 (1㎡・溝施肥基準)</span>
+                </div>
+                
+                <!-- 植物別の目標値早見表を追加 -->
+                <div class="quick-reference">
+                    <strong style="color: #435424;">💡 主な作物・植物の最適値早見表</strong>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>分類 / 主な植物</th>
+                                <th>最適 pH</th>
+                                <th>最適 EC (mS/cm)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>一般野菜</strong> (トマト・ナス・キュウリ・大根など)</td>
+                                <td>6.0 ～ 6.5</td>
+                                <td>0.4 ～ 0.6</td>
+                            </tr>
+                            <tr>
+                                <td><strong>イチゴ</strong> (肥料焼けしやすい敏感肌)</td>
+                                <td>6.0 ～ 6.5</td>
+                                <td>0.2 ～ 0.3 (低め)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ジャガイモ・サツマイモ</strong> (酸性を好み、EC高いと病気/蔓ボケ)</td>
+                                <td>5.0 ～ 5.5</td>
+                                <td>0.2 ～ 0.3</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ほうれん草・地植えのネギ</strong> (酸性を激しく嫌う)</td>
+                                <td>6.5 ～ 7.0</td>
+                                <td>0.4 ～ 0.6</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ブルーベリー</strong> (強酸性必須の代表格)</td>
+                                <td>4.3 ～ 5.0</td>
+                                <td>0.1 ～ 0.2</td>
+                            </tr>
+                            <tr>
+                                <td><strong>一般草花</strong> (パンジー・ペチュニア・キクなど)</td>
+                                <td>5.5 ～ 6.5</td>
+                                <td>0.2 ～ 0.4</td>
+                            </tr>
+                            <tr>
+                                <td><strong>一般樹木・果樹</strong> (果樹全般・庭木)</td>
+                                <td>5.5 ～ 6.5</td>
+                                <td>0.2 ～ 0.3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin: 8px 0 0 0; color: #666; scale: 0.95; transform-origin: left;">※1:5液での測定値基準です。目安として数値を上の枠に打ち込んでご使用ください。</p>
                 </div>
             </div>
         </div>
@@ -123,7 +179,7 @@
         
         <div class="flex-inputs">
             <div class="input-group">
-                <label class="main-width" style="font-size:12px; margin-bottom:4px;">1:5液の pH:</label>
+                <label class="main-label" style="font-size:12px; margin-bottom:4px;">1:5液の pH:</label>
                 <input type="number" id="mixPH" value="5.8" step="0.1">
             </div>
             <div class="input-group">
@@ -173,7 +229,6 @@ function calculateSystem() {
     let target = {};
     let unitFactor = 1.0;
     
-    // 別枠設定（カスタム）の場合の処理
     if (purpose === 'custom') {
         const customPH = parseFloat(document.getElementById('customPH').value);
         const customEC = parseFloat(document.getElementById('customEC').value);
@@ -200,9 +255,7 @@ function calculateSystem() {
     adviceHTML += `・土由来の現在のEC値: <strong>${netEC.toFixed(2)} mS/cm</strong> (目標: ${target.ec})<br>`;
     adviceHTML += `・現在の土壌pH: <strong>${mixPH}</strong> (目標: ${target.ph})<br><hr style="border:0; border-top:1px solid #cbd6c8; margin:15px 0;">`;
 
-    // --- pH調整ロジック（ピートモス対応） ---
     if (phGap > 0.1) {
-        // アルカリを入れてpHを上げる
         const baseLime = phGap * 12 * soilFactor * unitFactor;
         adviceHTML += `<strong>■ pH調整（酸度の中和目安）:</strong><br><ul class="material-list">`;
         if (soilType <= 2) {
@@ -215,8 +268,6 @@ function calculateSystem() {
         adviceHTML += `<li>（※代わりに <strong>草木灰</strong> を使う場合は、カリ分が強いので約 <span class="highlight-num">${(baseLime * 1.5).toFixed(0)}g</span> を目安にします）</li>`;
         adviceHTML += `</ul>`;
     } else if (phGap < -0.1) {
-        // 酸を入れてpHを下げる（ピートモス算出）
-        // 目安：壌土ベースでpHを1.0下げるのに10Lあたり約10g〜15gの乾燥ピートモス（目安値）
         const basePeat = Math.abs(phGap) * 15 * soilFactor * unitFactor;
         adviceHTML += `<strong>■ pH調整（酸性化・アルカリ補正の目安）:</strong><br><ul class="material-list">`;
         adviceHTML += `<li>目標よりもpHが高いため、土を酸側に傾ける必要があります。</li>`;
@@ -227,7 +278,6 @@ function calculateSystem() {
         adviceHTML += `● pHは目標範囲内です。石灰やピートモスの投入は不要です。<br>`;
     }
 
-    // --- 施肥ロジック ---
     if (ecGap > 0.02) {
         const baseChem = ecGap * 15 * soilFactor * unitFactor;
         adviceHTML += `<br><strong>■ 施肥（栄養補給の目安） ※いずれか1つを選択:</strong><br><ul class="material-list">`;
