@@ -31,13 +31,14 @@
         .flex-inputs { display: flex; gap: 15px; }
         .flex-inputs .input-group { flex: 1; padding: 0; }
         
-        /* 選択肢をそのまま表に見せるデザイン（ラジオボタン） */
         .radio-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
         .radio-label { display: flex; align-items: center; padding: 12px 15px; background: #fcfdfb; border: 2px solid #e1e8df; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; font-weight: bold; }
         .radio-label:hover { background: #f4f7f2; border-color: #8fbc8f; }
         .radio-group input[type="radio"] { margin-right: 12px; width: 18px; height: 18px; accent-color: #556b2f; }
-        /* 選択されている時の簡易変化 */
         .radio-group input[type="radio"]:checked + span { color: #556b2f; }
+        
+        /* カスタム入力枠のスタイル */
+        .custom-target-box { background: #f7faf6; border: 1px dashed #8fbc8f; padding: 15px; border-radius: 8px; margin-top: 10px; display: none; }
         
         .calc-btn { width: 100%; padding: 15px; background-color: #8fbc8f; color: white; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
         .calc-btn:hover { background-color: #556b2f; }
@@ -71,32 +72,40 @@
             <h3>システム概要と測定の理由</h3>
             <p>本システムは、精密なデジタルメーターの数値と、人間の「指の感触（土質）」を掛け合わせることで、勘に頼らない科学的な土壌改良を目指す診断ツールです。</p>
             <ul>
-                <li><strong>1:5導出法の理由：</strong> 土壌中の肥料成分や酸度は、そのままではメーターで測れません。乾いた土1に対して清水5の割合（重量比）で激しく混ぜ、成分を水に溶かし出した「上澄み液」を測定することで、全国標準の正確な土壌診断が可能になります。</li>
-                <li><strong>元の水（清水）も測定する理由：</strong> 使用する水道水や井戸水そのものにも、微量の塩分（EC）や酸度（pH）が含まれています。土の数値を正確に知るためには、測定値から「水の元々の値」を差し引いてリセット（補正）する必要があるため、必ず両方を測定します。</li>
-                <li><strong>pHとECメーターの役割：</strong> <strong>pH</strong>は土の酸性度（酸っぱさ）を測り、石灰などのアルカリ資材の量を決めます。<strong>EC（電気伝導度）</strong>は水に溶けている肥料の濃さを表し、これが低いほど「お腹が減っている（肥料不足）」、高いほど「メタボ（肥料過多）」と判断できます。</li>
-            </ul>
-            
-            <h3 style="margin-top: 20px;">処方箋（計算値）の算出基準</h3>
-            <p>画面下のボタンを押すと、システムは以下のステップと基準値（ロジック）に基づいて自動計算を行います。</p>
-            <ul>
-                <li><strong>ステップ1（正味の肥料濃度）：</strong> 「1:5液のEC」から「元の水のEC」を引いて、純粋な土の肥料濃度を割り出します。</li>
-                <li><strong>ステップ2（目標とのギャップ計算）：</strong> 選択した目的（苗・畑など）の目標値と、現在の測定値との差（不足分）を算出します。</li>
-                <li><strong>ステップ3（土質による補正）：</strong> 砂土は成分が効きやすく、粘土質（植土）は成分を吸着してしまい効きにくいため、指の感触が重い（粘土が強い）ほど、資材の必要量を <strong>0.6倍〜1.4倍</strong> までスライドさせて増減させます。</li>
-                <li><strong>ステップ4（重量換算基準）：</strong> <br>
-                    ・<strong>pHを1.0上げる：</strong> 土質に応じた基準量（壌土ベースで1㎡あたり約120gの石灰）を掛け合わせて算出。<br>
-                    ・<strong>ECを0.1 mS/cm上げる：</strong> 壌土ベースで1㎡あたり約15gのチッソ成分（化成肥料8-8-8等に換算）を基準として必要量を算出します。
-                </li>
+                <li><strong>1:5導出法の理由：</strong> 土壌中の肥料成分や酸度は、乾いた土1に対して清水5の割合（重量比）で激しく混ぜ、成分を水に溶かし出した「上澄み液」を測定することで、正確な土壌診断が可能になります。</li>
+                <li><strong>元の水（清水）も測定する理由：</strong> 使用する水そのものの塩分（EC）や酸度（pH）を引き算して、土本来の数値をリセット（補正）するために両方を測定します。</li>
             </ul>
         </div>
         
-        <!-- 診断の目的を丸見え（表出し）に変更 -->
+        <!-- 診断の目的（別枠用の自由設定を追加） -->
         <div class="input-group">
             <label class="main-label">● 診断の目的（当てはまるものを1つ選択）</label>
             <div class="radio-group">
-                <label class="radio-label"><input type="radio" name="purpose" value="seedling"><span>苗作り用ポット (目標: pH 6.0 / EC 0.2) [10Lあたり]</span></label>
-                <label class="radio-label"><input type="radio" name="purpose" value="planting" checked><span>植え替え定植用ポット (目標: pH 6.5 / EC 0.4) [10Lあたり]</span></label>
-                <label class="radio-label"><input type="radio" name="purpose" value="field"><span>畑への植え付け (目標: pH 6.5 / EC 0.4) [1㎡あたり]</span></label>
-                <label class="radio-label"><input type="radio" name="purpose" value="tree"><span>樹木用 (目標: pH 6.0 / EC 0.2) [1㎡あたり]</span></label>
+                <label class="radio-label"><input type="radio" name="purpose" value="seedling" onclick="toggleCustomInput(false)"><span>苗作り用ポット (目標: pH 6.0 / EC 0.2) [10Lあたり]</span></label>
+                <label class="radio-label"><input type="radio" name="purpose" value="planting" checked onclick="toggleCustomInput(false)"><span>植え替え定植用ポット (目標: pH 6.5 / EC 0.4) [10Lあたり]</span></label>
+                <label class="radio-label"><input type="radio" name="purpose" value="field" onclick="toggleCustomInput(false)"><span>畑への植え付け（溝施肥基準） (目標: pH 6.5 / EC 0.4) [1㎡あたり]</span></label>
+                <label class="radio-label"><input type="radio" name="purpose" value="tree" onclick="toggleCustomInput(false)"><span>樹木用 (目標: pH 6.0 / EC 0.2) [1㎡あたり]</span></label>
+                <label class="radio-label" style="border-color: #8fbc8f; background: #f4f8f3;"><input type="radio" name="purpose" value="custom" id="purposeCustom" onclick="toggleCustomInput(true)"><span>⚙️ 別枠設定（自分で目標値を決める）</span></label>
+            </div>
+            
+            <!-- 自由設定用の数値入力枠（隠し要素、選択時のみ開く） -->
+            <div class="custom-target-box" id="customTargetBox">
+                <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold; color: #435424;">↓ 独自の目標値を入力してください</p>
+                <div class="flex-inputs">
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label class="main-label" style="font-size:12px; margin-bottom:4px;">目標の pH:</label>
+                        <input type="number" id="customPH" value="6.5" step="0.1">
+                    </div>
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label class="main-label" style="font-size:12px; margin-bottom:4px;">目標の EC (mS/cm):</label>
+                        <input type="number" id="customEC" value="0.40" step="0.01">
+                    </div>
+                </div>
+                <div style="margin-top: 10px;">
+                    <label class="main-label" style="font-size:12px; margin-bottom:4px;">計算のベース単位:</label>
+                    <input type="radio" name="customUnit" value="pot" checked style="accent-color: #556b2f;"> <span style="font-size:13px; font-weight:bold; margin-right:15px;">ポット (10L基準)</span>
+                    <input type="radio" name="customUnit" value="field" style="accent-color: #556b2f;"> <span style="font-size:13px; font-weight:bold;">畑 (1㎡・溝施肥基準)</span>
+                </div>
             </div>
         </div>
 
@@ -114,7 +123,7 @@
         
         <div class="flex-inputs">
             <div class="input-group">
-                <label class="main-label" style="font-size:12px; margin-bottom:4px;">1:5液の pH:</label>
+                <label class="main-width" style="font-size:12px; margin-bottom:4px;">1:5液の pH:</label>
                 <input type="number" id="mixPH" value="5.8" step="0.1">
             </div>
             <div class="input-group">
@@ -123,7 +132,6 @@
             </div>
         </div>
         
-        <!-- 指の感覚（土質）も丸見え（表出し）に変更 -->
         <div class="input-group" style="margin-top: 15px;">
             <label class="main-label">2. 指の感覚（土質を1つ選択）</label>
             <div class="radio-group">
@@ -146,12 +154,15 @@
 const targets = {
     seedling: { ph: 6.0, ec: 0.2, unit: "ポット10L分" },
     planting: { ph: 6.5, ec: 0.4, unit: "ポット10L分" },
-    field:    { ph: 6.5, ec: 0.4, unit: "1㎡あたり" },
+    field:    { ph: 6.5, ec: 0.4, unit: "1㎡あたり（溝施肥）" },
     tree:     { ph: 6.0, ec: 0.2, unit: "1㎡あたり" }
 };
 
+function toggleCustomInput(show) {
+    document.getElementById('customTargetBox').style.display = show ? 'block' : 'none';
+}
+
 function calculateSystem() {
-    // ラジオボタンの選択値を取得するように修正
     const purpose = document.querySelector('input[name="purpose"]:checked').value;
     const soilType = parseInt(document.querySelector('input[name="soilType"]:checked').value);
     
@@ -159,19 +170,39 @@ function calculateSystem() {
     const mixEC = parseFloat(document.getElementById('mixEC').value);
     const mixPH = parseFloat(document.getElementById('mixPH').value);
     
-    const target = targets[purpose];
+    let target = {};
+    let unitFactor = 1.0;
+    
+    // 別枠設定（カスタム）の場合の処理
+    if (purpose === 'custom') {
+        const customPH = parseFloat(document.getElementById('customPH').value);
+        const customEC = parseFloat(document.getElementById('customEC').value);
+        const customUnit = document.querySelector('input[name="customUnit"]:checked').value;
+        
+        unitFactor = (customUnit === 'field') ? 10.0 : 1.0;
+        target = {
+            ph: customPH,
+            ec: customEC,
+            unit: customUnit === 'field' ? "独自設定（1㎡あたり）" : "独自設定（10Lあたり）"
+        };
+    } else {
+        target = targets[purpose];
+        unitFactor = (purpose === 'field' || purpose === 'tree') ? 10.0 : 1.0;
+    }
+    
     const netEC = Math.max(0, mixEC - waterEC);
     const phGap = target.ph - mixPH;
     const ecGap = target.ec - netEC;
     
     const soilFactor = 0.4 + (soilType * 0.2); 
-    const unitFactor = (purpose === 'field' || purpose === 'tree') ? 10.0 : 1.0;
 
     let adviceHTML = `<strong style="font-size:16px; color:#556b2f;">【 ${target.unit} の処方箋結果 】</strong><br><br>`;
     adviceHTML += `・土由来の現在のEC値: <strong>${netEC.toFixed(2)} mS/cm</strong> (目標: ${target.ec})<br>`;
     adviceHTML += `・現在の土壌pH: <strong>${mixPH}</strong> (目標: ${target.ph})<br><hr style="border:0; border-top:1px solid #cbd6c8; margin:15px 0;">`;
 
+    // --- pH調整ロジック（ピートモス対応） ---
     if (phGap > 0.1) {
+        // アルカリを入れてpHを上げる
         const baseLime = phGap * 12 * soilFactor * unitFactor;
         adviceHTML += `<strong>■ pH調整（酸度の中和目安）:</strong><br><ul class="material-list">`;
         if (soilType <= 2) {
@@ -183,15 +214,20 @@ function calculateSystem() {
         }
         adviceHTML += `<li>（※代わりに <strong>草木灰</strong> を使う場合は、カリ分が強いので約 <span class="highlight-num">${(baseLime * 1.5).toFixed(0)}g</span> を目安にします）</li>`;
         adviceHTML += `</ul>`;
-    } else if (phGap < -0.3) {
-        const mulchNeeded = Math.abs(phGap) * 50 * unitFactor;
-        adviceHTML += `<strong>■ pH調整（アルカリの中和目安）:</strong><br><ul class="material-list">`;
-        adviceHTML += `<li>pHが少し高めです。有機質を補いながら落ち着かせるため、<strong>腐葉土</strong> を約 <span class="highlight-num">${mulchNeeded.toFixed(0)}g</span> 混ぜてください。</li>`;
+    } else if (phGap < -0.1) {
+        // 酸を入れてpHを下げる（ピートモス算出）
+        // 目安：壌土ベースでpHを1.0下げるのに10Lあたり約10g〜15gの乾燥ピートモス（目安値）
+        const basePeat = Math.abs(phGap) * 15 * soilFactor * unitFactor;
+        adviceHTML += `<strong>■ pH調整（酸性化・アルカリ補正の目安）:</strong><br><ul class="material-list">`;
+        adviceHTML += `<li>目標よりもpHが高いため、土を酸側に傾ける必要があります。</li>`;
+        adviceHTML += `<li><strong>ピートモス（酸度未調整のもの）</strong> を約 <span class="highlight-num">${basePeat.toFixed(0)}g</span> （容積比でおよそ握り飯数個分〜土の1〜2割程度）をよく混ぜ込んでください。</li>`;
+        adviceHTML += `<li>（※軽めのアルカリ補正や有機質補給が目的であれば、<strong>腐葉土</strong> を多めに入れる形でも落ち着きます）</li>`;
         adviceHTML += `</ul>`;
     } else {
-        adviceHTML += `● pHは目標範囲内です。石灰系の投入は不要です。<br>`;
+        adviceHTML += `● pHは目標範囲内です。石灰やピートモスの投入は不要です。<br>`;
     }
 
+    // --- 施肥ロジック ---
     if (ecGap > 0.02) {
         const baseChem = ecGap * 15 * soilFactor * unitFactor;
         adviceHTML += `<br><strong>■ 施肥（栄養補給の目安） ※いずれか1つを選択:</strong><br><ul class="material-list">`;
@@ -214,4 +250,4 @@ function calculateSystem() {
 }
 </script>
 </body>
-</html></html>
+</html>
