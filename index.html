@@ -8,9 +8,17 @@
         body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #3d4439; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fdfdfb; }
         header { text-align: center; padding: 40px 20px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 20px; }
         h1 { margin: 0; font-size: 1.8em; letter-spacing: 0.15em; }
+        
+        /* メニュー全体の調整 */
         nav { text-align: center; margin-bottom: 30px; }
-        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; padding: 5px 10px; border-bottom: 2px solid transparent; }
+        /* 1行目のメニュー */
+        .nav-top { margin-bottom: 12px; }
+        /* 2行目のメニュー */
+        .nav-bottom { margin-top: 5px; }
+        
+        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; padding: 5px 10px; border-bottom: 2px solid transparent; display: inline-block; }
         nav a:hover { border-bottom: 2px solid #556b2f; }
+        
         .content { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         h2 { color: #556b2f; border-bottom: 2px solid #cbd6c8; padding-bottom: 8px; font-size: 1.4em; margin-top: 40px; }
         .img-container { text-align: center; margin: 20px 0; }
@@ -28,11 +36,16 @@
     </header>
 
     <nav>
-        <a href="index.html">ホーム</a>
-        <a href="items.html">取扱商品</a>
-        <a href="blog.html">雑感</a>
-        <!-- ↓新しくここを追加しました -->
-        <a href="soil.html">土壌管理システム</a>
+        <!-- 上の行 -->
+        <div class="nav-top">
+            <a href="index.html">ホーム</a>
+            <a href="items.html">取扱商品</a>
+            <a href="blog.html">雑感</a>
+        </div>
+        <!-- 下の行 -->
+        <div class="nav-bottom">
+            <a href="soil.html" style="background-color: #f0f4ee; border-radius: 20px; padding: 4px 18px;">🌱 土壌管理システム</a>
+        </div>
     </nav>
 
     <div class="content">
@@ -83,4 +96,4 @@
 
     <footer>&copy; 2026 KITCHEN GARDEN 銀七</footer>
 </body>
-</html></html>
+</html></html></html>
