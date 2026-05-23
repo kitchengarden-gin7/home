@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -8,13 +8,24 @@
         body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #3d4439; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fdfdfb; }
         header { text-align: center; padding: 40px 20px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 20px; }
         h1 { margin: 0; font-size: 1.8em; letter-spacing: 0.15em; }
+        
         nav { text-align: center; margin-bottom: 30px; }
-        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; padding: 5px 10px; border-bottom: 2px solid transparent; }
+        .nav-top { margin-bottom: 12px; }
+        .nav-bottom { margin-top: 5px; }
+        
+        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; padding: 5px 10px; border-bottom: 2px solid transparent; display: inline-block; }
         nav a:hover { border-bottom: 2px solid #556b2f; }
+        
         .content { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         h2 { color: #556b2f; border-bottom: 2px solid #cbd6c8; padding-bottom: 8px; font-size: 1.4em; margin-bottom: 20px; text-align: center; }
         
-        .section-title { font-weight: bold; background: #556b2f; color: white; margin-top: 20px; margin-bottom: 10px; font-size: 14px; padding: 6px 12px; border-radius: 6px; }
+        /* 説明文のスタイル */
+        .system-desc { background: #f9fbf8; border: 1px solid #e1e8df; padding: 20px; border-radius: 10px; margin-bottom: 30px; font-size: 0.95em; }
+        .system-desc h3 { color: #435424; margin-top: 0; font-size: 1.1em; border-left: 4px solid #556b2f; padding-left: 10px; }
+        .system-desc ul { margin-left: 20px; padding-left: 0; }
+        .system-desc li { margin-bottom: 8px; }
+        
+        .section-title { font-weight: bold; background: #556b2f; color: white; margin-top: 25px; margin-bottom: 10px; font-size: 14px; padding: 6px 12px; border-radius: 6px; }
         .input-group { margin-bottom: 15px; padding: 0 5px; }
         .input-group label { display: block; font-weight: bold; font-size: 13px; margin-bottom: 6px; color: #444; }
         .input-group input, .input-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fafafa; }
@@ -35,18 +46,41 @@
     </header>
 
     <nav>
-        <a href="index.html">ホーム</a>
-        <a href="items.html">取扱商品</a>
-        <a href="blog.html">雑感</a>
-        <a href="soil.html" style="border-bottom: 2px solid #556b2f;">土壌管理システム</a>
+        <div class="nav-top">
+            <a href="index.html">ホーム</a>
+            <a href="items.html">取扱商品</a>
+            <a href="blog.html">雑感</a>
+        </div>
+        <div class="nav-bottom">
+            <a href="soil.html" style="background-color: #f0f4ee; border-radius: 20px; padding: 4px 18px; border-bottom: 2px solid #556b2f;">🌱 土壌管理システム</a>
+        </div>
     </nav>
 
     <div class="content">
-        <h2>【浩一システム】施肥量計算ツール</h2>
+        <h2>【Koichiシステム】施肥量計算ツール</h2>
         
-        <p style="font-size: 0.9em; color: #666; text-align: center; margin-bottom: 30px;">
-            ※土1に対して清水5の割合で混ぜた上澄み液の測定値と、指の感触から必要な資材のグラム数を算出します。
-        </p>
+        <!-- システムの説明文を追加 -->
+        <div class="system-desc">
+            <h3>システム概要と測定の理由</h3>
+            <p>本システムは、精密なデジタルメーターの数値と、人間の「指の感触（土質）」を掛け合わせることで、勘に頼らない科学的な土壌改良を目指す診断ツールです。</p>
+            <ul>
+                <li><strong>1:5導出法の理由：</strong> 土壌中の肥料成分や酸度は、そのままではメーターで測れません。乾いた土1に対して清水5の割合（重量比）で激しく混ぜ、成分を水に溶かし出した「上澄み液」を測定することで、全国標準の正確な土壌診断が可能になります。</li>
+                <li><strong>元の水（清水）も測定する理由：</strong> 使用する水道水や井戸水そのものにも、微量の塩分（EC）や酸度（pH）が含まれています。土の数値を正確に知るためには、測定値から「水の元々の値」を差し引いてリセット（補正）する必要があるため、必ず両方を測定します。</li>
+                <li><strong>pHとECメーターの役割：</strong> <strong>pH</strong>は土の酸性度（酸っぱさ）を測り、石灰などのアルカリ資材の量を決めます。<strong>EC（電気伝導度）</strong>は水に溶けている肥料の濃さを表し、これが低いほど「お腹が減っている（肥料不足）」、高いほど「メタボ（肥料過多）」と判断できます。</li>
+            </ul>
+            
+            <h3 style="margin-top: 20px;">処方箋（計算値）の算出基準</h3>
+            <p>画面下のボタンを押すと、システムは以下のステップと基準値（ロジック）に基づいて自動計算を行います。</p>
+            <ul>
+                <li><strong>ステップ1（正味の肥料濃度）：</strong> 「1:5液のEC」から「元の水のEC」を引いて、純粋な土の肥料濃度を割り出します。</li>
+                <li><strong>ステップ2（目標とのギャップ計算）：</strong> 選択した目的（苗・畑など）の目標値と、現在の測定値との差（不足分）を算出します。</li>
+                <li><strong>ステップ3（土質による補正）：</strong> 砂土は成分が効きやすく、粘土質（植土）は成分を吸着してしまい効きにくいため、指の感触が重い（粘土が強い）ほど、資材の必要量を <strong>0.6倍〜1.4倍</strong> までスライドさせて増減させます。</li>
+                <li><strong>ステップ4（重量換算基準）：</strong> <br>
+                    ・<strong>pHを1.0上げる：</strong> 土質に応じた基準量（壌土ベースで1㎡あたり約120gの石灰）を掛け合わせて算出。<br>
+                    ・<strong>ECを0.1 mS/cm上げる：</strong> 壌土ベースで1㎡あたり約15gのチッソ成分（化成肥料8-8-8等に換算）を基準として必要量を算出します。
+                </li>
+            </ul>
+        </div>
         
         <div class="input-group">
             <label>● 診断の目的（目標値の自動設定）:</label>
@@ -120,6 +154,7 @@ function calculateSystem() {
     const phGap = target.ph - mixPH;
     const ecGap = target.ec - netEC;
     
+    // 土質補正係数 (1: 0.6, 2: 0.8, 3: 1.0, 4: 1.2, 5: 1.4)
     const soilFactor = 0.4 + (soilType * 0.2); 
     const unitFactor = (purpose === 'field' || purpose === 'tree') ? 10.0 : 1.0;
 
