@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>土壌管理システム - KITCHEN GARDEN 銀七</title>
+    <style>
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #3d4439; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fdfdfb; }
+        header { text-align: center; padding: 40px 20px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 20px; }
+        h1 { margin: 0; font-size: 1.8em; letter-spacing: 0.15em; }
+        nav { text-align: center; margin-bottom: 30px; }
+        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; padding: 5px 10px; border-bottom: 2px solid transparent; }
+        nav a:hover { border-bottom: 2px solid #556b2f; }
+        .content { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { color: #556b2f; border-bottom: 2px solid #cbd6c8; padding-bottom: 8px; font-size: 1.4em; margin-bottom: 20px; text-align: center; }
+        
+        .section-title { font-weight: bold; background: #556b2f; color: white; margin-top: 20px; margin-bottom: 10px; font-size: 14px; padding: 6px 12px; border-radius: 6px; }
+        .input-group { margin-bottom: 15px; padding: 0 5px; }
+        .input-group label { display: block; font-weight: bold; font-size: 13px; margin-bottom: 6px; color: #444; }
+        .input-group input, .input-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fafafa; }
+        .flex-inputs { display: flex; gap: 15px; }
+        .flex-inputs .input-group { flex: 1; padding: 0; }
+        .calc-btn { width: 100%; padding: 15px; background-color: #8fbc8f; color: white; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .calc-btn:hover { background-color: #556b2f; }
+        .result-box { margin-top: 30px; padding: 20px; border-radius: 10px; display: none; line-height: 1.8; background-color: #f7faf6; border: 1px solid #cbd6c8; }
+        .material-list { margin-left: 20px; padding-left: 0; }
+        .material-list li { margin-bottom: 8px; list-style-type: square; }
+        .highlight-num { color: #d32f2f; font-weight: bold; font-size: 17px; }
+        footer { text-align: center; margin-top: 60px; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>KITCHEN GARDEN 銀七</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">ホーム</a>
+        <a href="items.html">取扱商品</a>
+        <a href="blog.html">雑感</a>
+        <a href="soil.html" style="border-bottom: 2px solid #556b2f;">土壌管理システム</a>
+    </nav>
+
+    <div class="content">
+        <h2>【浩一システム】施肥量計算ツール</h2>
+        
+        <p style="font-size: 0.9em; color: #666; text-align: center; margin-bottom: 30px;">
+            ※土1に対して清水5の割合で混ぜた上澄み液の測定値と、指の感触から必要な資材のグラム数を算出します。
+        </p>
+        
+        <div class="input-group">
+            <label>● 診断の目的（目標値の自動設定）:</label>
+            <select id="purpose">
+                <option value="seedling">苗作り用ポット (目標: pH 6.0 / EC 0.2) [10Lあたり]</option>
+                <option value="planting" selected>植え替え定植用ポット (目標: pH 6.5 / EC 0.4) [10Lあたり]</option>
+                <option value="field">畑への植え付け (目標: pH 6.5 / EC 0.4) [1㎡あたり]</option>
+                <option value="tree">樹木用 (目標: pH 6.0 / EC 0.2) [1㎡あたり]</option>
+            </select>
+        </div>
+
+        <div class="section-title">1. メーターの測定値</div>
+        <div class="flex-inputs">
+            <div class="input-group">
+                <label>元の水の pH:</label>
+                <input type="number" id="waterPH" value="7.0" step="0.1">
+            </div>
+            <div class="input-group">
+                <label>元の水の EC (mS/cm):</label>
+                <input type="number" id="waterEC" value="0.10" step="0.01">
+            </div>
+        </div>
+        
+        <div class="flex-inputs">
+            <div class="input-group">
+                <label>1:5液の pH:</label>
+                <input type="number" id="mixPH" value="5.8" step="0.1">
+            </div>
+            <div class="input-group">
+                <label>1:5液の EC (mS/cm):</label>
+                <input type="number" id="mixEC" value="0.25" step="0.01">
+            </div>
+        </div>
+        
+        <div class="section-title">2. 指の感覚（土質5段階）</div>
+        <div class="input-group">
+            <label>指でこすった土の感触:</label>
+            <select id="soilType">
+                <option value="1">1: 砂土 (ザラザラ・まとまらない)</option>
+                <option value="2">2: 砂壌土 (少しザラザラ・ゆるく固まる)</option>
+                <option value="3" selected>3: 壌土 (中間の土・平均的)</option>
+                <option value="4">4: 植壌土 (ねばり気あり・しっかり固まる)</option>
+                <option value="5">5: 植土 (ねっとり粘土質・ツルツルする)</option>
+            </select>
+        </div>
+        
+        <button class="calc-btn" onclick="calculateSystem()">処方箋を計算する</button>
+        
+        <div id="resultBox" class="result-box"></div>
+    </div>
+
+    <footer>&copy; 2026 KITCHEN GARDEN 銀七</footer>
+
+<script>
+const targets = {
+    seedling: { ph: 6.0, ec: 0.2, unit: "ポット10L分" },
+    planting: { ph: 6.5, ec: 0.4, unit: "ポット10L分" },
+    field:    { ph: 6.5, ec: 0.4, unit: "1㎡あたり" },
+    tree:     { ph: 6.0, ec: 0.2, unit: "1㎡あたり" }
+};
+
+function calculateSystem() {
+    const purpose = document.getElementById('purpose').value;
+    const waterEC = parseFloat(document.getElementById('waterEC').value);
+    const mixEC = parseFloat(document.getElementById('mixEC').value);
+    const mixPH = parseFloat(document.getElementById('mixPH').value);
+    const soilType = parseInt(document.getElementById('soilType').value);
+    
+    const target = targets[purpose];
+    const netEC = Math.max(0, mixEC - waterEC);
+    const phGap = target.ph - mixPH;
+    const ecGap = target.ec - netEC;
+    
+    const soilFactor = 0.4 + (soilType * 0.2); 
+    const unitFactor = (purpose === 'field' || purpose === 'tree') ? 10.0 : 1.0;
+
+    let adviceHTML = `<strong style="font-size:16px; color:#556b2f;">【 ${target.unit} の処方箋結果 】</strong><br><br>`;
+    adviceHTML += `・土由来の現在のEC値: <strong>${netEC.toFixed(2)} mS/cm</strong> (目標: ${target.ec})<br>`;
+    adviceHTML += `・現在の土壌pH: <strong>${mixPH}</strong> (目標: ${target.ph})<br><hr style="border:0; border-top:1px solid #cbd6c8; margin:15px 0;">`;
+
+    if (phGap > 0.1) {
+        const baseLime = phGap * 12 * soilFactor * unitFactor;
+        adviceHTML += `<strong>■ pH調整（酸度の中和目安）:</strong><br><ul class="material-list">`;
+        if (soilType <= 2) {
+            adviceHTML += `<li><strong>カキ殻石灰</strong> を約 <span class="highlight-num">${baseLime.toFixed(0)}g</span> 混ぜてください。（砂質の土におだやかに効きます）</li>`;
+        } else if (soilType >= 4) {
+            adviceHTML += `<li><strong>消石灰</strong> なら約 <span class="highlight-num">${(baseLime * 0.7).toFixed(0)}g</span>、または安全な <strong>カキ殻石灰</strong> なら約 <span class="highlight-num">${(baseLime * 1.2).toFixed(0)}g</span> です。</li>`;
+        } else {
+            adviceHTML += `<li><strong>カキ殻石灰</strong> なら約 <span class="highlight-num">${baseLime.toFixed(0)}g</span>、<strong>消石灰</strong> なら約 <span class="highlight-num">${(baseLime * 0.7).toFixed(0)}g</span> です。</li>`;
+        }
+        adviceHTML += `<li>（※代わりに <strong>草木灰</strong> を使う場合は、カリ分が強いので約 <span class="highlight-num">${(baseLime * 1.5).toFixed(0)}g</span> を目安にします）</li>`;
+        adviceHTML += `</ul>`;
+    } else if (phGap < -0.3) {
+        const mulchNeeded = Math.abs(phGap) * 50 * unitFactor;
+        adviceHTML += `<strong>■ pH調整（アルカリの中和目安）:</strong><br><ul class="material-list">`;
+        adviceHTML += `<li>pHが少し高めです。有機質を補いながら落ち着かせるため、<strong>腐葉土</strong> を約 <span class="highlight-num">${mulchNeeded.toFixed(0)}g</span> 混ぜてください。</li>`;
+        adviceHTML += `</ul>`;
+    } else {
+        adviceHTML += `● pHは目標範囲内です。石灰系の投入は不要です。<br>`;
+    }
+
+    if (ecGap > 0.02) {
+        const baseChem = ecGap * 15 * soilFactor * unitFactor;
+        adviceHTML += `<br><strong>■ 施肥（栄養補給の目安） ※いずれか1つを選択:</strong><br><ul class="material-list">`;
+        adviceHTML += `<li><strong>8-8-8 化成肥料:</strong> 約 <span class="highlight-num">${baseChem.toFixed(1)}g</span> (パッと早く効かせたい場合)</li>`;
+        adviceHTML += `<li><strong>鶏糞:</strong> 約 <span class="highlight-num">${(baseChem * 2.5).toFixed(0)}g</span> (元肥としてしっかり効かせたい場合)</li>`;
+        adviceHTML += `<li><strong>牛糞堆肥:</strong> 約 <span class="highlight-num">${(baseChem * 15).toFixed(0)}g</span> (土壌改良を兼ねてじわじわ効かせたい場合)</li>`;
+        if (soilType <= 2) {
+            adviceHTML += `<small style="color:#e65100; display:block; margin-top:5px;">※砂質の土は一気にやると肥料焼けしやすいので、化成肥料の場合は2回に分けて撒くのが安全です。</small>`;
+        }
+        adviceHTML += `</ul>`;
+    } else if (ecGap < -0.1) {
+        adviceHTML += `<br><strong style="color:#d32f2f;">■ 注意: 肥料濃度（EC）が目標をオーバーしています。しばらく追肥や堆肥の投入はストップし、真水での水やりを中心にしてください。</strong><br>`;
+    } else {
+        adviceHTML += `<br>● 肥料濃度（EC）はちょうど良い状態です。追加の必要はありません。<br>`;
+    }
+
+    const resBox = document.getElementById('resultBox');
+    resBox.style.display = "block";
+    resBox.innerHTML = adviceHTML;
+}
+</script>
+</body>
+</html>
