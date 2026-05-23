@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -19,18 +19,26 @@
         .content { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         h2 { color: #556b2f; border-bottom: 2px solid #cbd6c8; padding-bottom: 8px; font-size: 1.4em; margin-bottom: 20px; text-align: center; }
         
-        /* 説明文のスタイル */
         .system-desc { background: #f9fbf8; border: 1px solid #e1e8df; padding: 20px; border-radius: 10px; margin-bottom: 30px; font-size: 0.95em; }
         .system-desc h3 { color: #435424; margin-top: 0; font-size: 1.1em; border-left: 4px solid #556b2f; padding-left: 10px; }
         .system-desc ul { margin-left: 20px; padding-left: 0; }
         .system-desc li { margin-bottom: 8px; }
         
-        .section-title { font-weight: bold; background: #556b2f; color: white; margin-top: 25px; margin-bottom: 10px; font-size: 14px; padding: 6px 12px; border-radius: 6px; }
+        .section-title { font-weight: bold; background: #556b2f; color: white; margin-top: 25px; margin-bottom: 15px; font-size: 14px; padding: 6px 12px; border-radius: 6px; }
         .input-group { margin-bottom: 15px; padding: 0 5px; }
-        .input-group label { display: block; font-weight: bold; font-size: 13px; margin-bottom: 6px; color: #444; }
-        .input-group input, .input-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fafafa; }
+        .input-group label.main-label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 10px; color: #3d4439; }
+        .input-group input[type="number"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fafafa; }
         .flex-inputs { display: flex; gap: 15px; }
         .flex-inputs .input-group { flex: 1; padding: 0; }
+        
+        /* 選択肢をそのまま表に見せるデザイン（ラジオボタン） */
+        .radio-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+        .radio-label { display: flex; align-items: center; padding: 12px 15px; background: #fcfdfb; border: 2px solid #e1e8df; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; font-weight: bold; }
+        .radio-label:hover { background: #f4f7f2; border-color: #8fbc8f; }
+        .radio-group input[type="radio"] { margin-right: 12px; width: 18px; height: 18px; accent-color: #556b2f; }
+        /* 選択されている時の簡易変化 */
+        .radio-group input[type="radio"]:checked + span { color: #556b2f; }
+        
         .calc-btn { width: 100%; padding: 15px; background-color: #8fbc8f; color: white; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
         .calc-btn:hover { background-color: #556b2f; }
         .result-box { margin-top: 30px; padding: 20px; border-radius: 10px; display: none; line-height: 1.8; background-color: #f7faf6; border: 1px solid #cbd6c8; }
@@ -59,7 +67,6 @@
     <div class="content">
         <h2>【Koichiシステム】施肥量計算ツール</h2>
         
-        <!-- システムの説明文を追加 -->
         <div class="system-desc">
             <h3>システム概要と測定の理由</h3>
             <p>本システムは、精密なデジタルメーターの数値と、人間の「指の感触（土質）」を掛け合わせることで、勘に頼らない科学的な土壌改良を目指す診断ツールです。</p>
@@ -82,49 +89,50 @@
             </ul>
         </div>
         
+        <!-- 診断の目的を丸見え（表出し）に変更 -->
         <div class="input-group">
-            <label>● 診断の目的（目標値の自動設定）:</label>
-            <select id="purpose">
-                <option value="seedling">苗作り用ポット (目標: pH 6.0 / EC 0.2) [10Lあたり]</option>
-                <option value="planting" selected>植え替え定植用ポット (目標: pH 6.5 / EC 0.4) [10Lあたり]</option>
-                <option value="field">畑への植え付け (目標: pH 6.5 / EC 0.4) [1㎡あたり]</option>
-                <option value="tree">樹木用 (目標: pH 6.0 / EC 0.2) [1㎡あたり]</option>
-            </select>
+            <label class="main-label">● 診断の目的（当てはまるものを1つ選択）</label>
+            <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="purpose" value="seedling"><span>苗作り用ポット (目標: pH 6.0 / EC 0.2) [10Lあたり]</span></label>
+                <label class="radio-label"><input type="radio" name="purpose" value="planting" checked><span>植え替え定植用ポット (目標: pH 6.5 / EC 0.4) [10Lあたり]</span></label>
+                <label class="radio-label"><input type="radio" name="purpose" value="field"><span>畑への植え付け (目標: pH 6.5 / EC 0.4) [1㎡あたり]</span></label>
+                <label class="radio-label"><input type="radio" name="purpose" value="tree"><span>樹木用 (目標: pH 6.0 / EC 0.2) [1㎡あたり]</span></label>
+            </div>
         </div>
 
         <div class="section-title">1. メーターの測定値</div>
         <div class="flex-inputs">
             <div class="input-group">
-                <label>元の水の pH:</label>
+                <label class="main-label" style="font-size:12px; margin-bottom:4px;">元の水の pH:</label>
                 <input type="number" id="waterPH" value="7.0" step="0.1">
             </div>
             <div class="input-group">
-                <label>元の水の EC (mS/cm):</label>
+                <label class="main-label" style="font-size:12px; margin-bottom:4px;">元の水の EC (mS/cm):</label>
                 <input type="number" id="waterEC" value="0.10" step="0.01">
             </div>
         </div>
         
         <div class="flex-inputs">
             <div class="input-group">
-                <label>1:5液の pH:</label>
+                <label class="main-label" style="font-size:12px; margin-bottom:4px;">1:5液の pH:</label>
                 <input type="number" id="mixPH" value="5.8" step="0.1">
             </div>
             <div class="input-group">
-                <label>1:5液の EC (mS/cm):</label>
+                <label class="main-label" style="font-size:12px; margin-bottom:4px;">1:5液の EC (mS/cm):</label>
                 <input type="number" id="mixEC" value="0.25" step="0.01">
             </div>
         </div>
         
-        <div class="section-title">2. 指の感覚（土質5段階）</div>
-        <div class="input-group">
-            <label>指でこすった土の感触:</label>
-            <select id="soilType">
-                <option value="1">1: 砂土 (ザラザラ・まとまらない)</option>
-                <option value="2">2: 砂壌土 (少しザラザラ・ゆるく固まる)</option>
-                <option value="3" selected>3: 壌土 (中間の土・平均的)</option>
-                <option value="4">4: 植壌土 (ねばり気あり・しっかり固まる)</option>
-                <option value="5">5: 植土 (ねっとり粘土質・ツルツルする)</option>
-            </select>
+        <!-- 指の感覚（土質）も丸見え（表出し）に変更 -->
+        <div class="input-group" style="margin-top: 15px;">
+            <label class="main-label">2. 指の感覚（土質を1つ選択）</label>
+            <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="soilType" value="1"><span>1: 砂土 (ザラザラ・まとまらない)</span></label>
+                <label class="radio-label"><input type="radio" name="soilType" value="2"><span>2: 砂壌土 (少しザラザラ・ゆるく固まる)</span></label>
+                <label class="radio-label"><input type="radio" name="soilType" value="3" checked><span>3: 壌土 (中間の土・平均的)</span></label>
+                <label class="radio-label"><input type="radio" name="soilType" value="4"><span>4: 植壌土 (ねばり気あり・しっかり固まる)</span></label>
+                <label class="radio-label"><input type="radio" name="soilType" value="5"><span>5: 植土 (ねっとり粘土質・ツルツルする)</span></label>
+            </div>
         </div>
         
         <button class="calc-btn" onclick="calculateSystem()">処方箋を計算する</button>
@@ -143,18 +151,19 @@ const targets = {
 };
 
 function calculateSystem() {
-    const purpose = document.getElementById('purpose').value;
+    // ラジオボタンの選択値を取得するように修正
+    const purpose = document.querySelector('input[name="purpose"]:checked').value;
+    const soilType = parseInt(document.querySelector('input[name="soilType"]:checked').value);
+    
     const waterEC = parseFloat(document.getElementById('waterEC').value);
     const mixEC = parseFloat(document.getElementById('mixEC').value);
     const mixPH = parseFloat(document.getElementById('mixPH').value);
-    const soilType = parseInt(document.getElementById('soilType').value);
     
     const target = targets[purpose];
     const netEC = Math.max(0, mixEC - waterEC);
     const phGap = target.ph - mixPH;
     const ecGap = target.ec - netEC;
     
-    // 土質補正係数 (1: 0.6, 2: 0.8, 3: 1.0, 4: 1.2, 5: 1.4)
     const soilFactor = 0.4 + (soilType * 0.2); 
     const unitFactor = (purpose === 'field' || purpose === 'tree') ? 10.0 : 1.0;
 
@@ -205,4 +214,4 @@ function calculateSystem() {
 }
 </script>
 </body>
-</html>
+</html></html>
