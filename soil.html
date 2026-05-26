@@ -27,10 +27,16 @@
         .section-title { font-weight: bold; background: #556b2f; color: white; margin-top: 25px; margin-bottom: 15px; font-size: 14px; padding: 6px 12px; border-radius: 6px; }
         .input-group { margin-bottom: 15px; padding: 0 5px; }
         .input-group label.main-label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 10px; color: #3d4439; }
-        .input-group input[type="number"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fafafa; }
+        .input-group input[type="number"], .input-group input[type="date"], .input-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fafafa; }
         .flex-inputs { display: flex; gap: 15px; }
         .flex-inputs .input-group { flex: 1; padding: 0; }
         
+        /* 測定場所用の特殊スタイル */
+        .location-select-container { display: flex; gap: 10px; width: 100%; }
+        .location-select-container select { flex: 1; }
+        .add-loc-btn { background: #556b2f; color: white; border: none; border-radius: 6px; padding: 0 15px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .add-loc-btn:hover { background: #435424; }
+
         .radio-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
         .radio-label { display: flex; align-items: center; padding: 12px 15px; background: #fcfdfb; border: 2px solid #e1e8df; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; font-weight: bold; }
         .radio-label:hover { background: #f4f7f2; border-color: #8fbc8f; }
@@ -50,6 +56,12 @@
         .material-list { margin-left: 20px; padding-left: 0; }
         .material-list li { margin-bottom: 8px; list-style-type: square; }
         .highlight-num { color: #d32f2f; font-weight: bold; font-size: 17px; }
+        
+        /* コピーボタンのスタイル */
+        .copy-btn { width: 100%; padding: 12px; background-color: #3d4439; color: white; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: bold; margin-top: 20px; transition: 0.2s; }
+        .copy-btn:hover { background-color: #556b2f; }
+        .copy-btn.copied { background-color: #2bc016; }
+
         footer { text-align: center; margin-top: 60px; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
 </head>
@@ -81,7 +93,6 @@
             </ul>
         </div>
         
-        <!-- 診断の目的 -->
         <div class="input-group">
             <label class="main-label">● 診断の目的（当てはまるものを1つ選択）</label>
             <div class="radio-group">
@@ -92,7 +103,6 @@
                 <label class="radio-label" style="border-color: #8fbc8f; background: #f4f8f3;"><input type="radio" name="purpose" value="custom" id="purposeCustom" onclick="toggleCustomInput(true)"><span>⚙️ 別枠設定（自分で目標値を決める）</span></label>
             </div>
             
-            <!-- 自由設定用の数値入力枠 ＆ 指標早見表 -->
             <div class="custom-target-box" id="customTargetBox">
                 <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: bold; color: #435424;">↓ 独自の目標値を入力してください</p>
                 <div class="flex-inputs">
@@ -111,7 +121,6 @@
                     <input type="radio" name="customUnit" value="field" style="accent-color: #556b2f;"> <span style="font-size:13px; font-weight:bold;">畑 (1㎡・溝施肥基準)</span>
                 </div>
                 
-                <!-- 植物別の目標値早見表を追加 -->
                 <div class="quick-reference">
                     <strong style="color: #435424;">💡 主な作物・植物の最適値早見表</strong>
                     <table>
@@ -165,7 +174,26 @@
             </div>
         </div>
 
-        <div class="section-title">1. メーターの測定値</div>
+        <div class="section-title">1. 基本情報・管理用レコード</div>
+        <div class="flex-inputs">
+            <div class="input-group">
+                <label class="main-label" style="font-size:12px; margin-bottom:4px;">測定日:</label>
+                <input type="date" id="recordDate">
+            </div>
+            <div class="input-group">
+                <label class="main-label" style="font-size:12px; margin-bottom:4px;">測定場所:</label>
+                <div class="location-select-container">
+                    <select id="locationSelect">
+                        <option value="ミニ田んぼ">ミニ田んぼ</option>
+                        <option value="手前畑">手前畑</option>
+                        <option value="奥の畑">奥の畑</option>
+                    </select>
+                    <button type="button" class="add-loc-btn" onclick="addNewLocation()">＋追加</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">2. メーターの測定値</div>
         <div class="flex-inputs">
             <div class="input-group">
                 <label class="main-label" style="font-size:12px; margin-bottom:4px;">元の水の pH:</label>
@@ -189,13 +217,13 @@
         </div>
         
         <div class="input-group" style="margin-top: 15px;">
-            <label class="main-label">2. 指の感覚（土質を1つ選択）</label>
+            <label class="main-label">3. 指の感覚（土質を1つ選択）</label>
             <div class="radio-group">
-                <label class="radio-label"><input type="radio" name="soilType" value="1"><span>1: 砂土 (ザラザラ・まとまらない)</span></label>
+                <label class="radio-label"><input type="radio" name="soilType" value="1"><span>1: 砂土・真砂土 (ザラザラ・保肥力低・流亡注意)</span></label>
                 <label class="radio-label"><input type="radio" name="soilType" value="2"><span>2: 砂壌土 (少しザラザラ・ゆるく固まる)</span></label>
-                <label class="radio-label"><input type="radio" name="soilType" value="3" checked><span>3: 壌土 (中間の土・平均的)</span></label>
+                <label class="radio-label"><input type="radio" name="soilType" value="3" checked><span>3: 壌土・黒ボク土 (平均的～フカフカ・リン酸固定注意)</span></label>
                 <label class="radio-label"><input type="radio" name="soilType" value="4"><span>4: 植壌土 (ねばり気あり・しっかり固まる)</span></label>
-                <label class="radio-label"><input type="radio" name="soilType" value="5"><span>5: 植土 (ねっとり粘土質・ツルツルする)</span></label>
+                <label class="radio-label"><input type="radio" name="soilType" value="5"><span>5: 植土 (ねっとり粘土質・ツルツル・元肥慎重)</span></label>
             </div>
         </div>
         
@@ -207,6 +235,46 @@
     <footer>&copy; 2026 KITCHEN GARDEN 銀七</footer>
 
 <script>
+// コピペ送信テキストを一時記憶するグローバル変数
+let currentTextReport = "";
+
+// ページ読み込み時に今日の日付を自動入力＆ローカルストレージから場所を読み込む
+window.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('recordDate').value = today;
+    loadCustomLocations();
+});
+
+// 新しい測定場所をブラウザ（ローカル）に安全に保存・追加する
+function addNewLocation() {
+    const newLoc = prompt("新しい測定場所の名前を入力してください：");
+    if (newLoc && newLoc.trim() !== "") {
+        const select = document.getElementById('locationSelect');
+        const option = document.createElement('option');
+        option.value = newLoc.trim();
+        option.text = newLoc.trim();
+        select.add(option);
+        select.value = newLoc.trim(); // 追加した場所に切り替え
+
+        // スマホのブラウザ内に記憶（安全・非公開）
+        let saved = JSON.parse(localStorage.getItem('gin7_custom_locations')) || [];
+        saved.push(newLoc.trim());
+        localStorage.setItem('gin7_custom_locations', JSON.stringify(saved));
+    }
+}
+
+// 保存された場所の自動読み込み
+function loadCustomLocations() {
+    const saved = JSON.parse(localStorage.getItem('gin7_custom_locations')) || [];
+    const select = document.getElementById('locationSelect');
+    saved.forEach(loc => {
+        const option = document.createElement('option');
+        option.value = loc;
+        option.text = loc;
+        select.add(option);
+    });
+}
+
 const targets = {
     seedling: { ph: 6.0, ec: 0.2, unit: "ポット10L分" },
     planting: { ph: 6.5, ec: 0.4, unit: "ポット10L分" },
@@ -222,6 +290,12 @@ function calculateSystem() {
     const purpose = document.querySelector('input[name="purpose"]:checked').value;
     const soilType = parseInt(document.querySelector('input[name="soilType"]:checked').value);
     
+    // 追加した日付と場所を取得
+    const recordDate = document.getElementById('recordDate').value;
+    const locationName = document.getElementById('locationSelect').value;
+    const soilTextClean = document.querySelector('input[name="soilType"]:checked').nextElementSibling.textContent;
+    
+    const waterPH = parseFloat(document.getElementById('waterPH').value);
     const waterEC = parseFloat(document.getElementById('waterEC').value);
     const mixEC = parseFloat(document.getElementById('mixEC').value);
     const mixPH = parseFloat(document.getElementById('mixPH').value);
@@ -251,19 +325,27 @@ function calculateSystem() {
     
     const soilFactor = 0.4 + (soilType * 0.2); 
 
+    // --- ① 画面表示用（HTML）の組み立て ---
     let adviceHTML = `<strong style="font-size:16px; color:#556b2f;">【 ${target.unit} の処方箋結果 】</strong><br><br>`;
     adviceHTML += `・土由来の現在のEC値: <strong>${netEC.toFixed(2)} mS/cm</strong> (目標: ${target.ec})<br>`;
     adviceHTML += `・現在の土壌pH: <strong>${mixPH}</strong> (目標: ${target.ph})<br><hr style="border:0; border-top:1px solid #cbd6c8; margin:15px 0;">`;
+
+    // コピペ用テキスト内の資材メモ文字列
+    let phTextReport = "";
+    let ecTextReport = "";
 
     if (phGap > 0.1) {
         const baseLime = phGap * 12 * soilFactor * unitFactor;
         adviceHTML += `<strong>■ pH調整（酸度の中和目安）:</strong><br><ul class="material-list">`;
         if (soilType <= 2) {
             adviceHTML += `<li><strong>カキ殻石灰</strong> を約 <span class="highlight-num">${baseLime.toFixed(0)}g</span> 混ぜてください。（砂質の土におだやかに効きます）</li>`;
+            phTextReport = `カキ殻石灰: 約 ${baseLime.toFixed(0)}g (砂質補正)`;
         } else if (soilType >= 4) {
             adviceHTML += `<li><strong>消石灰</strong> なら約 <span class="highlight-num">${(baseLime * 0.7).toFixed(0)}g</span>、または安全な <strong>カキ殻石灰</strong> なら約 <span class="highlight-num">${(baseLime * 1.2).toFixed(0)}g</span> です。</li>`;
+            phTextReport = `消石灰: 約 ${(baseLime * 0.7).toFixed(0)}g / カキ殻石灰なら 約 ${(baseLime * 1.2).toFixed(0)}g`;
         } else {
             adviceHTML += `<li><strong>カキ殻石灰</strong> なら約 <span class="highlight-num">${baseLime.toFixed(0)}g</span>、<strong>消石灰</strong> なら約 <span class="highlight-num">${(baseLime * 0.7).toFixed(0)}g</span> です。</li>`;
+            phTextReport = `カキ殻石灰: 約 ${baseLime.toFixed(0)}g / 消石灰: 約 ${(baseLime * 0.7).toFixed(0)}g`;
         }
         adviceHTML += `<li>（※代わりに <strong>草木灰</strong> を使う場合は、カリ分が強いので約 <span class="highlight-num">${(baseLime * 1.5).toFixed(0)}g</span> を目安にします）</li>`;
         adviceHTML += `</ul>`;
@@ -271,32 +353,63 @@ function calculateSystem() {
         const basePeat = Math.abs(phGap) * 15 * soilFactor * unitFactor;
         adviceHTML += `<strong>■ pH調整（酸性化・アルカリ補正の目安）:</strong><br><ul class="material-list">`;
         adviceHTML += `<li>目標よりもpHが高いため、土を酸側に傾ける必要があります。</li>`;
-        adviceHTML += `<li><strong>ピートモス（酸度未調整のもの）</strong> を約 <span class="highlight-num">${basePeat.toFixed(0)}g</span> （容積比でおよそ握り飯数個分〜土の1〜2割程度）をよく混ぜ込んでください。</li>`;
-        adviceHTML += `<li>（※軽めのアルカリ補正や有機質補給が目的であれば、<strong>腐葉土</strong> を多めに入れる形でも落ち着きます）</li>`;
+        adviceHTML += `<li><strong>ピートモス（酸度未調整のもの）</strong> を約 <span class="highlight-num">${basePeat.toFixed(0)}g</span> をよく混ぜ込んでください。</li>`;
         adviceHTML += `</ul>`;
+        phTextReport = `ピートモス(酸度未調整): 約 ${basePeat.toFixed(0)}g`;
     } else {
         adviceHTML += `● pHは目標範囲内です。石灰やピートモスの投入は不要です。<br>`;
+        phTextReport = `不要 (範囲内)`;
     }
 
     if (ecGap > 0.02) {
         const baseChem = ecGap * 15 * soilFactor * unitFactor;
         adviceHTML += `<br><strong>■ 施肥（栄養補給の目安） ※いずれか1つを選択:</strong><br><ul class="material-list">`;
-        adviceHTML += `<li><strong>8-8-8 化成肥料:</strong> 約 <span class="highlight-num">${baseChem.toFixed(1)}g</span> (パッと早く効かせたい場合)</li>`;
-        adviceHTML += `<li><strong>鶏糞:</strong> 約 <span class="highlight-num">${(baseChem * 2.5).toFixed(0)}g</span> (元肥としてしっかり効かせたい場合)</li>`;
-        adviceHTML += `<li><strong>牛糞堆肥:</strong> 約 <span class="highlight-num">${(baseChem * 15).toFixed(0)}g</span> (土壌改良を兼ねてじわじわ効かせたい場合)</li>`;
-        if (soilType <= 2) {
-            adviceHTML += `<small style="color:#e65100; display:block; margin-top:5px;">※砂質の土は一気にやると肥料焼けしやすいので、化成肥料の場合は2回に分けて撒くのが安全です。</small>`;
-        }
+        adviceHTML += `<li><strong>8-8-8 化成肥料:</strong> 約 <span class="highlight-num">${baseChem.toFixed(1)}g</span></li>`;
+        adviceHTML += `<li><strong>鶏糞:</strong> 約 <span class="highlight-num">${(baseChem * 2.5).toFixed(0)}g</span></li>`;
+        adviceHTML += `<li><strong>牛糞堆肥:</strong> 約 <span class="highlight-num">${(baseChem * 15).toFixed(0)}g</span></li>`;
         adviceHTML += `</ul>`;
+        
+        ecTextReport = `化成(8-8-8): 約 ${baseChem.toFixed(1)}g / 鶏糞: 約 ${(baseChem * 2.5).toFixed(0)}g / 牛糞: 約 ${(baseChem * 15).toFixed(0)}g`;
     } else if (ecGap < -0.1) {
-        adviceHTML += `<br><strong style="color:#d32f2f;">■ 注意: 肥料濃度（EC）が目標をオーバーしています。しばらく追肥や堆肥の投入はストップし、真水での水やりを中心にしてください。</strong><br>`;
+        adviceHTML += `<br><strong style="color:#d32f2f;">■ 注意: 肥料濃度（EC）が目標をオーバーしています。追肥はストップしてください。</strong><br>`;
+        ecTextReport = `過剰 (施肥ストップ・真水管理)`;
     } else {
         adviceHTML += `<br>● 肥料濃度（EC）はちょうど良い状態です。追加の必要はありません。<br>`;
+        ecTextReport = `不要 (範囲内)`;
     }
 
+    // --- ② LINE/メモ帳へのコピペ用プレーンテキストの組み立て ---
+    currentTextReport = `【銀七・土壌管理レコード】
+■ 測定日: ${recordDate}
+■ 場所: ${locationName}
+■ 土質: ${soilTextClean}
+■ 水源: pH ${waterPH.toFixed(1)} / EC ${waterEC.toFixed(2)}
+--------------------
+[測定値] pH ${mixPH.toFixed(1)} / EC(土由来) ${netEC.toFixed(2)}
+[目標値] pH ${target.ph.toFixed(1)} / EC ${target.ec.toFixed(2)} (${target.unit})
+--------------------
+■ 処方箋目安:
+・pH調整: ${phTextReport}
+・施肥対応: ${ecTextReport}
+--------------------`;
+
+    // コピーボタン付きで結果ボックスを表示
+    adviceHTML += `<button type="button" class="copy-btn" id="copyBtn" onclick="copyReportToClipboard()">📋 診断結果をクリップボードにコピー</button>`;
+    
     const resBox = document.getElementById('resultBox');
     resBox.style.display = "block";
     resBox.innerHTML = adviceHTML;
+}
+
+// クリップボードに一発コピーする関数
+function copyReportToClipboard() {
+    navigator.clipboard.writeText(currentTextReport).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = "✓ コピーしました！(LINE等に貼り付け可)";
+        btn.classList.add('copied');
+    }).catch(err => {
+        alert("コピーに失敗しました。お手数ですが結果を手動でコピーしてください。");
+    });
 }
 </script>
 </body>
