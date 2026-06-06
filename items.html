@@ -59,7 +59,7 @@
         grid.innerHTML = '';
 
         // レート設定
-        const xlmRate = 30; 
+        const xlmRate = 35; 
         const ginchiRate = 1;
 
         data.sort((a, b) => (a.category || "").localeCompare(b.category || "", 'ja'));
@@ -76,7 +76,7 @@
                 // メール生成の準備
                 const subject = encodeURIComponent("【購入相談】" + item.title);
                 const body = encodeURIComponent(`以下の通り購入を希望します。\n\n商品名: ${item.title}\n金額: ${item.price}円\nXLM換算: ${xlmVal} XLM\nGINCHI換算: ${ginchiVal} GINCHI\n\n[以下をご記入ください]\nお名前:\n電話番号:\n受取方法:[対面/発送]\nウォレットアドレス:`);
-                const mailTo = `mailto:あなたのメールアドレス?subject=${subject}&body=${body}`;
+                const mailTo = `mailto:kitchengarden.gin7@gmail.com?subject=${subject}&body=${body}`;
 
                 grid.innerHTML += `
                     <div class="item-card">
