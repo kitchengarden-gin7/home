@@ -81,6 +81,39 @@
                                     <span class="item-stock">在庫: ${item.stock}</span>
                                     <span class="item-title">${item.title}</span>
                                     <span class="item-price">${item.price}円</span>
+                                   // レートの定義（ここを書き換えるだけでOK）
+const xlmRate = 35; 
+
+data.forEach(item => {
+    if(item.title && item.title.trim() !== "") {
+        const price = parseInt(item.price);
+        const xlmVal = (price / xlmRate).toFixed(2);
+        
+        // 画像と情報の処理（既存のコード）
+        const imgSrc = item.image ? item.image.trim() : "";
+        const imgTag = imgSrc ? `<img src="${imgSrc}" class="item-img" alt="${item.title}">` : `<div class="item-img" style="background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#ccc;">No Image</div>`;
+
+        // ボタン作成用関数を呼び出すためのリンク
+        const mailBody = `商品名: ${item.title}\n金額: ${item.price}円\nXLM換算: ${xlmVal} XLM\nGINCHI換算: ${item.price} GINCHI\n\n[以下をご記入ください]\nお名前:\n電話番号:\n受取方法:[対面/発送]\nウォレットアドレス:`;
+        const mailTo = `mailto:kitchengarden.gin7@gmail.com?subject=【購入相談】${item.title}&body=${encodeURIComponent(mailBody)}`;
+
+        grid.innerHTML += `
+            <div class="item-card">
+                ${imgTag}
+                <div class="item-info">
+                    <div class="item-date">${item.date}</div>
+                    <div class="item-category">${item.category}</div>
+                    <span class="item-stock">在庫: ${item.stock}</span>
+                    <span class="item-title">${item.title}</span>
+                    <span class="item-price">${item.price}円</span>
+                    <p style="margin:5px 0; font-size:0.8em; color:#555;">(相当額: ${xlmVal} XLM / ${item.price} GINCHI)</p>
+                    <a href="${mailTo}" style="display:block; text-align:center; background:#556b2f; color:white; padding:10px; border-radius:5px; text-decoration:none; margin-top:10px;">購入相談する</a>
+                    <p class="item-desc">${item.description.replace(/\n/g, '<br>')}</p>
+                </div>
+            </div>
+        `;
+    }
+}); 
                                     <p class="item-desc">${item.description.replace(/\n/g, '<br>')}</p>
                                 </div>
                             </div>
