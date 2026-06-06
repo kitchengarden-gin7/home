@@ -9,11 +9,11 @@
         header { text-align: center; padding: 30px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 30px; }
         h2 { border-left: 5px solid #556b2f; padding-left: 15px; color: #556b2f; margin-top: 40px; }
         .box { background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #eee; margin: 15px 0; }
+        .highlight { background: #fffde7; border: 2px solid #d4a017; padding: 20px; border-radius: 10px; font-weight: bold; text-align: center; }
         .caution { background: #fff5f0; border: 1px solid #d35400; padding: 15px; border-radius: 10px; color: #d35400; font-size: 0.9em; }
         nav { text-align: center; margin-bottom: 30px; }
         nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; }
-        .qr-area { text-align: center; margin: 20px 0; }
-        .address-box { background: #f4f4f4; padding: 10px; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 0.9em; }
+        .address-box { background: #f4f4f4; padding: 15px; border-radius: 5px; word-break: break-all; font-family: monospace; border: 1px dashed #556b2f; margin: 10px 0; }
     </style>
 </head>
 <body>
@@ -26,24 +26,26 @@
     <h2>お支払い方法</h2>
     <p>取扱商品は、メールでのご相談、または直接ご来店にてご購入いただけます。</p>
 
+    <div class="highlight">
+        <p style="font-size: 1.2em; margin: 0;">🎁 GINCHIポイント 30％還元実施中！</p>
+        <p style="font-size: 0.9em; font-weight: normal; margin-top: 10px;">現金・XLMでのお支払いでも、ウォレットアプリをご用意いただければ、<br>購入金額の30％をGINCHIポイントで還元いたします！</p>
+    </div>
+
     <h2>決済手段</h2>
     <div class="box">
-        <p>現金（日本円）のほか、ステラ（Stellar）チェーン上の以下の資産に対応しています。</p>
         <ul>
+            <li><strong>現金（日本円）</strong></li>
             <li><strong>XLM</strong>（ステラルーメン）</li>
             <li><strong>GINCHIポイント</strong></li>
         </ul>
-        <p>※仮想通貨・ポイントでお支払いの際は、ご自身のウォレットアプリから送金をお願いいたします。</p>
+        <p>※現金払いの方も、その場でウォレットの設定（トラストライン追加）をお手伝いすれば、すぐポイントを受け取れます。お気軽にお声がけください！</p>
     </div>
 
-   <h2>お支払い用アドレス</h2>
+    <h2>送金用パブリックキー</h2>
     <div class="box">
-        <p>以下のパブリックキーをコピーして、ウォレットアプリに貼り付けてください。</p>
-        <div class="address-box" style="user-select: all; cursor: pointer; border: 1px dashed #556b2f; padding: 15px; text-align: center; font-size: 1.1em; font-weight: bold;">
-            GBVUSGN73XP27QNAILI6GR2DWLI6FQHAKCB7TRG3I4CS4ZO5W3XJMQCD
-        </div>
-        <p style="font-size: 0.8em; text-align: center; color: #888;">※アドレスをタップ（クリック）すると選択状態になります</p>
-    </div>
+        <p>送金の際は、以下のキーをコピーしてご利用ください。</p>
+        <div class="address-box" onclick="this.style.background='#e8f5e9'" title="クリックで選択">GBVUSGN73XP27QNAILI6GR2DWLI6FQHAKCB7TRG3I4CS4ZO5W3XJMQCD</div>
+        <p style="font-size: 0.8em; color: #888;">※タップ（クリック）するとコピーしやすくなります</p>
     </div>
 
     <h2>初めての方へ（重要）</h2>
@@ -52,7 +54,7 @@
         初めてウォレットをご利用になる場合、少量のXLMが必要です。</p>
         <p><strong>【推奨アプリ】</strong><br>
         「Lobstr（ロブスター）」ウォレットを推奨しています。<br>
-        GINCHIの受け取りには「トラストライン（Assetの追加）」設定が必要です。設定方法がご不明な場合は、お気軽にご相談ください！</p>
+        GINCHIの受け取りには「トラストライン（Assetの追加）」設定が必要です。設定方法がご不明な場合は、いつでもサポートしますのでお声がけください！</p>
     </div>
 </body>
 </html>
