@@ -1,1 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お支払い方法 - KITCHEN GARDEN 銀七</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.8; color: #3d4439; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fdfdfb; }
+        header { text-align: center; padding: 30px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 30px; }
+        h2 { border-left: 5px solid #556b2f; padding-left: 15px; color: #556b2f; margin-top: 40px; }
+        .box { background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #eee; margin: 15px 0; }
+        .caution { background: #fff5f0; border: 1px solid #d35400; padding: 15px; border-radius: 10px; color: #d35400; font-size: 0.9em; }
+        nav { text-align: center; margin-bottom: 30px; }
+        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; }
+        .qr-area { text-align: center; margin: 20px 0; }
+        .address-box { background: #f4f4f4; padding: 10px; border-radius: 5px; word-break: break-all; font-family: monospace; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <header><h1>お支払いについて</h1></header>
+    <nav>
+        <a href="index.html">ホーム</a>
+        <a href="items.html">取扱商品</a>
+    </nav>
 
+    <h2>お支払い方法</h2>
+    <p>取扱商品は、メールでのご相談、または直接ご来店にてご購入いただけます。</p>
+
+    <h2>決済手段</h2>
+    <div class="box">
+        <p>現金（日本円）のほか、ステラ（Stellar）チェーン上の以下の資産に対応しています。</p>
+        <ul>
+            <li><strong>XLM</strong>（ステラルーメン）</li>
+            <li><strong>GINCHIポイント</strong></li>
+        </ul>
+        <p>※仮想通貨・ポイントでお支払いの際は、ご自身のウォレットアプリから送金をお願いいたします。</p>
+    </div>
+
+    <h2>お支払い用アドレス・QRコード</h2>
+    <div class="box qr-area">
+        <p>こちらのパブリックキーへ送金してください。</p>
+        <div class="address-box">GBVUSGN73XP27QNAILI6GR2DWLI6FQHAKCB7TRG3I4CS4ZO5W3XJMQCD</div>
+        <br>
+        <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=GBVUSGN73XP27QNAILI6GR2DWLI6FQHAKCB7TRG3I4CS4ZO5W3XJMQCD" alt="決済用QRコード">
+        <p style="font-size: 0.8em;">※送金時は必ずアセットの種類をご確認ください。</p>
+    </div>
+
+    <h2>初めての方へ（重要）</h2>
+    <div class="caution">
+        <p><strong>【XLMの準備について】</strong><br>
+        初めてウォレットをご利用になる場合、少量のXLMが必要です。</p>
+        <p><strong>【推奨アプリ】</strong><br>
+        「Lobstr（ロブスター）」ウォレットを推奨しています。<br>
+        GINCHIの受け取りには「トラストライン（Assetの追加）」設定が必要です。設定方法がご不明な場合は、お気軽にご相談ください！</p>
+    </div>
+</body>
+</html>
