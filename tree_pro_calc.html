@@ -1,1 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>樹木健全度 精密診断システム - KITCHEN GARDEN 銀七</title>
+    <style>
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #3d4439; max-width: 850px; margin: 0 auto; padding: 20px; background-color: #fdfdfb; }
+        header { text-align: center; padding: 40px 20px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 20px; }
+        h1 { margin: 0; font-size: 1.8em; letter-spacing: 0.15em; }
+        
+        nav { text-align: center; margin-bottom: 30px; }
+        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 10px; padding: 5px 10px; border-bottom: 2px solid transparent; display: inline-block; }
+        nav a:hover, nav a.active { border-bottom: 2px solid #556b2f; }
+        
+        .content { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { color: #556b2f; border-bottom: 2px solid #cbd6c8; padding-bottom: 8px; font-size: 1.4em; margin-bottom: 20px; text-align: center; }
+        
+        .system-desc { background: #f9fbf8; border: 1px solid #e1e8df; padding: 20px; border-radius: 10px; margin-bottom: 30px; font-size: 0.95em; }
+        .system-desc h3 { color: #435424; margin-top: 0; font-size: 1.1em; border-left: 4px solid #556b2f; padding-left: 10px; }
 
+        .section-title { font-weight: bold; background: #556b2f; color: white; margin-top: 35px; margin-bottom: 15px; font-size: 14px; padding: 6px 12px; border-radius: 6px; }
+        
+        .input-group { margin-bottom: 15px; }
+        .input-group label.main-label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 6px; color: #3d4439; }
+        .input-group input[type="text"], .input-group input[type="number"], .input-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fafafa; }
+        
+        .flex-inputs { display: flex; gap: 15px; margin-bottom: 15px; }
+        .flex-inputs .input-group { flex: 1; margin-bottom: 0; }
+
+        /* チェックボックスの装飾 */
+        .check-group { display: flex; flex-direction: column; gap: 8px; }
+        .check-label { display: flex; align-items: center; padding: 12px 15px; background: #fcfdfb; border: 2px solid #e1e8df; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; font-weight: bold; }
+        .check-label:hover { background: #f4f7f2; border-color: #8fbc8f; }
+        .check-group input[type="checkbox"] { margin-right: 12px; width: 18px; height: 18px; accent-color: #d32f2f; }
+        
+        .calc-btn { width: 100%; padding: 15px; background-color: #8fbc8f; color: white; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; }
+        .calc-btn:hover { background-color: #556b2f; }
+        
+        /* 結果表示 */
+        .result-box { margin-top: 30px; padding: 25px; border-radius: 10px; display: none; line-height: 1.8; background-color: #f7faf6; border: 1px solid #cbd6c8; }
+        .rank-badge { display: inline-block; padding: 6px 20px; font-weight: bold; border-radius: 20px; color: white; font-size: 1.2em; margin-bottom: 15px; }
+        .rank-A { background-color: #2bc016; }
+        .rank-B { background-color: #8fbc8f; }
+        .rank-C { background-color: #ffa500; }
+        .rank-D { background-color: #d32f2f; }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #3d4439; color: white; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: bold; margin-top: 20px; transition: 0.2s; }
+        .copy-btn:hover { background-color: #556b2f; }
+        footer { text-align: center; margin-top: 60px; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>KITCHEN GARDEN 銀七</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">ホーム</a>
+        <a href="items.html">取扱商品</a>
+        <a href="soil2.html">🌱 土壌管理システム</a>
+        <a href="tree_pro_calc.html" class="active" style="background-color: #f0f4ee; border-radius: 20px;">🌳 樹木精密診断</a>
+    </nav>
+
+    <div class="content">
+        <h2>樹木健全度 総合精密診断システム</h2>
+        
+        <div class="system-desc">
+            <h3>システム概要</h3>
+            <p>本システムは、国（国土交通省）や地方自治体の街路樹健全度調査基準に準拠したプロ向けの総合診断ツールです。外観目視チェック項目に加え、レジストグラフ等による幹断面（非真円・楕円近似）および内部空洞の精密実測値から力学的安全性を科学的に判定します。</p>
+        </div>
+
+        <div class="section-title">1. 対象木・環境情報</div>
+        <div class="flex-inputs">
+            <div class="input-group">
+                <label class="main-label">対象樹木名・固有番号</label>
+                <input type="text" id="treeName" value="ケヤキ No.1">
+            </div>
+            <div class="input-group">
+                <label class="main-label">樹種区分</label>
+                <select id="treeType">
+                    <option value="hard">硬質木・高強度（ケヤキ、クスノキ等）</option>
+                    <option value="soft" selected>軟質木・腐朽注意（サクラ、ヤナギ等）</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="section-title">2. 外観・構造診断（目視による重大危険因子の確認）</div>
+        <div class="check-group">
+            <label class="check-label"><input type="checkbox" id="flagVigor" class="flag-check"><span>【樹勢】葉量が明らかに通常の50%以下に低下、または先端細枝の大規模な枯れ込み</span></label>
+            <label class="check-label"><input type="checkbox" id="flagLean" class="flag-check"><span>【構造】主幹が急激に傾斜（20度以上）、または大枝のバランスが著しく不良</span></label>
+            <label class="check-label"><input type="checkbox" id="flagCollar" class="flag-check"><span>【根元】ルートカラーが深植え・覆土で埋没、または根株の巻根（絞め殺し根）が目視できる</span></label>
+            <label class="check-label"><input type="checkbox" id="flagMotion" class="flag-check" value="CRITICAL"><span>【緊急】幹を揺らした際に地際・根元がグラグラ動く（動揺・根返りの兆候）</span></label>
+        </div>
+
+        <div class="section-title">3. 幹断面および内部空洞 精密実測値（十字2方向測定）</div>
+        
+        <p style="font-size: 12px; font-weight: bold; color: #556b2f; margin-bottom: 5px;">▼ 幹の直径（非真円・楕円近似用の長径と短径）</p>
+        <div class="flex-inputs">
+            <div class="input-group">
+                <label class="main-label">方向A（長径方向）の直径 (cm)</label>
+                <input type="number" id="stemD1" value="60" step="0.1">
+            </div>
+            <div class="input-group">
+                <label class="main-label">方向B（短径方向）の直径 (cm)</label>
+                <input type="number" id="stemD2" value="50" step="0.1">
+            </div>
+        </div>
+
+        <p style="font-size: 12px; font-weight: bold; color: #556b2f; margin-bottom: 5px; margin-top: 15px;">▼ レジストグラフ等による残存外殻の厚み (cm)</p>
+        <div class="flex-inputs">
+            <div class="input-group">
+                <label class="main-label">方向A 入口側の外殻厚 t1</label>
+                <input type="number" id="thickT1" value="12" step="0.1">
+            </div>
+            <div class="input-group">
+                <label class="main-label">方向A 出口側の外殻厚 t2</label>
+                <input type="number" id="thickT2" value="10" step="0.1">
+            </div>
+        </div>
+        <div class="flex-inputs">
+            <div class="input-group">
+                <label class="main-label">方向B 入口側の外殻厚 t3</label>
+                <input type="number" id="thickT3" value="15" step="0.1">
+            </div>
+            <div class="input-group">
+                <label class="main-label">方向B 出口側の外殻厚 t4</label>
+                <input type="number" id="thickT4" value="11" step="0.1">
+            </div>
+        </div>
+
+        <div class="section-title">4. 空洞の進展特性と開口部リスク</div>
+        <div class="check-group">
+            <label class="check-label"><input type="checkbox" id="flagVertical" class="flag-check"><span>上下方向への著しい空洞進展（目安：空洞長さが幹直径の3倍以上）</span></label>
+            <label class="check-label"><input type="checkbox" id="flagCavityWidth" class="flag-check"><span>幹の開口部（穴）の幅が、幹全周の25%（1/4）以上を占めている</span></label>
+        </div>
+
+        <button type="button" class="calc-btn" id="calcBtn">精密解析を実行する</button>
+
+        <div id="resultBox" class="result-box"></div>
+    </div>
+
+    <footer>&copy; 2026 KITCHEN GARDEN 銀七</footer>
+
+<script>
+let currentReport = "";
+
+document.getElementById('calcBtn').addEventListener('click', calculateProSystem);
+
+function calculateProSystem() {
+    // 1. 入力値の取得
+    const treeName = document.getElementById('treeName').value || "対象木";
+    const treeType = document.getElementById('treeType').value;
+    
+    const d1 = parseFloat(document.getElementById('stemD1').value);
+    const d2 = parseFloat(document.getElementById('stemD2').value);
+    
+    const t1 = parseFloat(document.getElementById('thickT1').value);
+    const t2 = parseFloat(document.getElementById('thickT2').value);
+    const t3 = parseFloat(document.getElementById('thickT3').value);
+    const t4 = parseFloat(document.getElementById('thickT4').value);
+
+    // 外観・構造チェックフラグ
+    const flagVigor = document.getElementById('flagVigor').checked;
+    const flagLean = document.getElementById('flagLean').checked;
+    const flagCollar = document.getElementById('flagCollar').checked;
+    const flagMotion = document.getElementById('flagMotion').checked; // 最重要
+    
+    // 空洞形状フラグ
+    const flagVertical = document.getElementById('flagVertical').checked;
+    const flagCavityWidth = document.getElementById('flagCavityWidth').checked; // 最重要
+
+    // 2. 力学断面積計算（楕円近似法）
+    const totalArea = (Math.PI * d1 * d2) / 4; // 幹全体の断面積
+
+    // 空洞部分の直径を逆算
+    const cavityD1 = Math.max(0, d1 - (t1 + t2));
+    const cavityD2 = Math.max(0, d2 - (t3 + t4));
+    const cavityArea = (Math.PI * cavityD1 * cavityD2) / 4; // 空洞部の断面積
+
+    // 断面積空洞率 (%)
+    const cavityRatio = (cavityArea / totalArea) * 100;
+
+    // 木部外殻厚さ比 (t/R) の最小値を算出
+    const r1 = d1 / 2;
+    const r2 = d2 / 2;
+    const tR_ratios = [t1/r1, t2/r1, t3/r2, t4/r2];
+    const minTR = Math.min(...tR_ratios); // 最も薄い外殻の比率
+
+    // 3. 基本ステージ判定（数値によるベース評価）
+    let baseStage = 0; // 0:健全, 1:要注意, 2:不健全, 3:危険
+    
+    // 国交省基準のt/Rおよび空洞率によるベースマッピング
+    if (minTR < 0.20 || cavityRatio >= 60) {
+        baseStage = 3; // 危険
+    } else if (minTR < 0.30 || cavityRatio >= 50) {
+        baseStage = 2; // 補修・不健全
+    } else if (minTR < 0.35 || cavityRatio >= 30) {
+        baseStage = 1; // 要注意
+    } else {
+        baseStage = 0; // 健全
+    }
+
+    // 4. フラグによる格上げ（モディファイア処理）
+    let finalStage = baseStage;
+    let upgradeReason = [];
+
+    // 1ランク格上げ因子
+    if (flagVigor || flagLean || flagCollar || flagVertical) {
+        if (finalStage < 2) {
+            finalStage += 1;
+            upgradeReason.push("外観異常または上下方向への空洞進展が認められるため判定を格上げ");
+        }
+    }
+    
+    // 樹種による補正（サクラ等の軟質木でグレーゾーンの場合に安全側にシフト）
+    if (treeType === 'soft' && finalStage === 1 && cavityRatio > 40) {
+        finalStage = 2;
+        upgradeReason.push("腐朽の進行が早い樹種特性を考慮し安全側にシフト");
+    }
+
+    // 強制【最重要危険】ロック因子（空洞率に関わらず一発アウト）
+    if (flagMotion) {
+        finalStage = 3;
+        upgradeReason.push("【致命的】根株の動揺（根返りの兆候）が確認されたため緊急伐採判定");
+    }
+    if (flagCavityWidth) {
+        finalStage = 3;
+        upgradeReason.push("【致命的】開口部幅が全周の25%を超え、断面欠損による破断リスクが過大");
+    }
+
+    // 5. 出力テキスト・クラスの生成
+    let rankText = "";
+    let rankClass = "";
+    let actionPlan = "";
+
+    switch (finalStage) {
+        case 0:
+            rankText = "【判定A】 健全（現存維持・通常管理）";
+            rankClass = "rank-A";
+            actionPlan = "構造的な脆弱性、および目立った衰退兆候は認められません。通常の維持管理（定期的なすかし剪定および経過観察）を継続してください。";
+            break;
+        case 1:
+            rankText = "【判定B】 要注意（樹勢回復・経過観察）";
+            rankClass = "rank-B";
+            actionPlan = "軽微な空洞化または樹勢低下が認められます。空洞のさらなる拡大を防ぐため、土壌改良による樹勢回復を図るとともに、1年ごとの定期的な外観モニタリング（追跡調査）を行ってください。";
+            break;
+        case 2:
+            rankText = "【判定C】 不健全（精密診断継続・養生処置）";
+            rankClass = "rank-C";
+            actionPlan = "木部外殻の薄層化が進んでおり、力学的限界線に達しています。受風圧を軽減するための【強度剪定（枝下ろし・頭止め）】を急ぎ、必要に応じて【三脚支柱やワイヤーによる固定固定】を施してください。定期的に樹木医による精密機器診断を継続する必要があります。";
+            break;
+        case 3:
+            rankText = "【判定D】 危険・重篤（即時倒木危険木・伐採更新）";
+            rankClass = "rank-D";
+            actionPlan = "構造保持能力が完全に失われており、自重や突風によっていつ破断・倒伏してもおかしくない極めて危険な状態です。二次災害（人身・物件事故）を防止するため、速やかに周囲の立ち入りを制限し、**【早期の伐採・および新しい苗木への植え替え（更新）】**の措置を決定してください。";
+            break;
+    }
+
+    // 6. 結果画面への描画
+    let resultHTML = `
+        <strong style="font-size:16px; color:#556b2f;">【 ${treeName} 解析カルテ結果 】</strong><br><br>
+        <div class="rank-badge ${rankClass}">${rankText}</div><br>
+        
+        <table style="width:100%; border-collapse:collapse; margin:15px 0; font-size:14px;">
+            <tr style="background:#f4f7f2;"><td style="padding:6px; border:1px solid #cbd6c8; font-weight:bold;">幹の推定断面積</td><td style="padding:6px; border:1px solid #cbd6c8; text-align:right;">${totalArea.toFixed(1)} cm²</td></tr>
+            <tr><td style="padding:6px; border:1px solid #cbd6c8; font-weight:bold;">内部空洞の断面積</td><td style="padding:6px; border:1px solid #cbd6c8; text-align:right;">${cavityArea.toFixed(1)} cm²</td></tr>
+            <tr style="background:#fdf2f2; color:#d32f2f;"><td style="padding:6px; border:1px solid #cbd6c8; font-weight:bold;">断面積空洞率 (Ar)</td><td style="padding:6px; border:1px solid #cbd6c8; text-align:right; font-weight:bold;">${cavityRatio.toFixed(1)} %</td></tr>
+            <tr style="background:#fdf2f2; color:#d32f2f;"><td style="padding:6px; border:1px solid #cbd6c8; font-weight:bold;">最小外殻厚さ比 (t/R)</td><td style="padding:6px; border:1px solid #cbd6c8; text-align:right; font-weight:bold;">${minTR.toFixed(2)}</td></tr>
+        </table>
+    `;
+
+    if (upgradeReason.length > 0) {
+        resultHTML += `<p style="font-size:13px; color:#b35900; background:#fff9f2; padding:10px; border-radius:6px; border:1px dashed #ffa500;"><strong>⚠️ 判定補正理由:</strong><br>・${upgradeReason.join('<br>・')}</p>`;
+    }
+
+    resultHTML += `
+        <hr style="border:0; border-top:1px solid #cbd6c8; margin:15px 0;">
+        <p><strong>🛠 決定された処置指示（アクションプラン）:</strong><br>${actionPlan}</p>
+        <button type="button" class="copy-btn" id="copyProBtn">📋 診断カルテをクリップボードにコピー</button>
+    `;
+
+    currentReport = `【銀七・樹木健全度精密診断カルテ】
+■ 対象木・番号: ${treeName}
+■ 樹種特性: ${treeType === 'hard' ? '高強度材' : '腐朽容易材'}
+--------------------
+[計算断面データ]
+・幹断面積: ${totalArea.toFixed(1)} cm²
+・空洞面積: ${cavityArea.toFixed(1)} cm²
+・断面積空洞率: ${cavityRatio.toFixed(1)} %
+・最小外殻厚さ比 (t/R): ${minTR.toFixed(2)}
+--------------------
+■ 総合判定: ${rankText}
+■ 補正理由: ${upgradeReason.join(' / ') || 'なし'}
+■ 処置指示: ${actionPlan}
+--------------------`;
+
+    const resBox = document.getElementById('resultBox');
+    resBox.innerHTML = resultHTML;
+    resBox.style.display = "block";
+
+    // コピーイベントの接続
+    document.getElementById('copyProBtn').addEventListener('click', () => {
+        navigator.clipboard.writeText(currentReport).then(() => {
+            const btn = document.getElementById('copyProBtn');
+            btn.textContent = "✓ カルテをコピーしました！";
+            btn.style.backgroundColor = "#2bc016";
+        }).catch(err => {
+            alert("コピーに失敗しました。");
+        });
+    });
+}
+</script>
+</body>
+</html>
