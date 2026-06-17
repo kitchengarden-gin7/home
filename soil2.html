@@ -242,11 +242,33 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 「場所追加」ボタンが押されたときの動きを設定
+  // 「場所追加」ボタンが押されたときの動きを設定（修正版）
     document.getElementById('addLocBtn').addEventListener('click', () => {
-        const newLoc = prompt("新しい測定場所の名前を入力してください：");
+        const newLoc = prompt("新しい測定場所の名前を入力してください：\n（※「リセット」と入力すると、追加した場所がすべて消去されます）");
+        
+        // リセット機能の追加
+        if (newLoc === "リセット") {
+            if (confirm("自分で追加した場所をすべて削除して初期状態に戻しますか？")) {
+                localStorage.removeItem('gin7_custom_locations');
+                alert("追加した場所をリセットしました。ページを再読み込みします。");
+                location.reload();
+            }
+            return;
+        }
+
         if (newLoc && newLoc.trim() !== "") {
             const cleanLoc = newLoc.trim();
+            
+            // 重複チェック（既にある場合は追加しない）
+            const select = document.getElementById('locationSelect');
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].value === cleanLoc) {
+                    alert("その場所は既に登録されています。");
+                    select.value = cleanLoc;
+                    return;
+                }
+            }
+
             const option = document.createElement('option');
             option.value = cleanLoc;
             option.text = cleanLoc;
@@ -257,7 +279,7 @@ window.addEventListener('DOMContentLoaded', () => {
             savedLocs.push(cleanLoc);
             localStorage.setItem('gin7_custom_locations', JSON.stringify(savedLocs));
         }
-    });
+    });  
 
     // 「計算する」ボタンが押されたときの動きを設定
     document.getElementById('calcBtn').addEventListener('click', calculateSystem);
