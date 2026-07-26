@@ -36,7 +36,7 @@
         .tree-card.visited { border-color: #cbd6c8; background-color: #f9fbf8; }
         .tree-card.visited::after { content: "✓ 見学済"; position: absolute; top: 10px; right: 10px; background: rgba(85, 107, 47, 0.9); color: white; padding: 3px 10px; font-size: 0.75em; font-weight: bold; border-radius: 20px; z-index: 2; }
         
-        /* 【新デザイン】カード上部の「特性・性質」解説エリア */
+        /* カード上部の「特性・性質」解説エリア */
         .tree-nature-box { padding: 15px; background-color: #f4f6f2; border-bottom: 1px solid #e6ebd8; font-size: 0.85em; color: #4e5746; line-height: 1.6; flex-shrink: 0; min-height: 80px; display: flex; flex-direction: column; justify-content: center; }
         .nature-title { font-weight: bold; color: #465a26; margin-bottom: 3px; display: flex; align-items: center; gap: 4px; }
         
@@ -44,8 +44,10 @@
         .tree-number { font-size: 0.75em; color: #556b2f; font-weight: bold; background: #f0f4e9; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; align-self: flex-start; }
         .tree-title { font-size: 1.2em; font-weight: bold; margin: 2px 0 5px 0; color: #2c4c38; line-height: 1.4; }
         
-        /* 学名用のイタリックスタイル */
-        .tree-scientific-name { font-size: 0.8em; color: #777; font-style: italic; margin-top: -4px; margin-bottom: 10px; font-family: Georgia, serif; }
+        /* 【新スタイル】学名と科名を表示するエリア */
+        .tree-scientific-zone { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: -2px; margin-bottom: 10px; font-size: 0.8em; }
+        .scientific-name { color: #777; font-style: italic; font-family: Georgia, serif; }
+        .family-name { color: #465a26; background: #e6ebd8; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; font-weight: 500; }
         
         .tree-meta { font-size: 0.85em; color: #666; margin-bottom: 10px; line-height: 1.5; background: #fafafa; padding: 8px 12px; border-radius: 6px; }
         .tree-desc { font-size: 0.85em; color: #555; margin-top: 5px; line-height: 1.6; flex-grow: 1; border-top: 1px dashed #eee; padding-top: 10px; }
@@ -193,7 +195,7 @@
                         `<span class="distance-badge">🧭 現在地から約 ${Math.round(dist)} m</span>`;
                 }
 
-                // 【特性・性質】の取得とHTML生成（無ければ優しい案内文を表示）
+                // 特性・性質の取得
                 const natureText = item['特性・性質'] || item['特性'] || item['性質'] || '';
                 let natureHtml = '';
                 if (natureText && natureText.trim() !== '') {
@@ -211,11 +213,20 @@
                     `;
                 }
 
-                // 【学名】の取得（あれば樹木名の下にイタリック体でカッコよく表示）
+                // 科名と学名の取得および横並びのレイアウト生成
+                const familyName = item['科名'] || item['科'] || '';
                 const scientificName = item['学名'] || '';
-                let scientificHtml = '';
-                if (scientificName && scientificName.trim() !== '') {
-                    scientificHtml = `<div class="tree-scientific-name">${scientificName}</div>`;
+                let scientificZoneHtml = '';
+                
+                if (familyName || scientificName) {
+                    scientificZoneHtml = `<div class="tree-scientific-zone">`;
+                    if (familyName) {
+                        scientificZoneHtml += `<span class="family-name">${familyName}</span>`;
+                    }
+                    if (scientificName) {
+                        scientificZoneHtml += `<span class="scientific-name">${scientificName}</span>`;
+                    }
+                    scientificZoneHtml += `</div>`;
                 }
 
                 const mapUrl = `https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`;
@@ -226,7 +237,7 @@
                         <div class="tree-info">
                             <span class="tree-number">指定第 ${item.指定番号} 号</span>
                             <span class="tree-title">${item['🌳つうしょう名称'] || item['通称・名称'] || item.樹種名 || '保存樹木'}</span>
-                            ${scientificHtml}
+                            ${scientificZoneHtml}
                             ${distanceText}
                             <div class="tree-meta">
                                 <b>樹種:</b> ${item.樹種名 || '不明'}<br>
