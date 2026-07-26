@@ -26,10 +26,8 @@
         .progress-bar-bg { background: #e0e6db; height: 12px; border-radius: 6px; margin: 10px auto; max-width: 400px; overflow: hidden; }
         .progress-bar { background: #556b2f; height: 100%; width: 0%; transition: width 0.5s ease; }
         
-        .medal-zone { display: none; text-align: center; padding: 20px; background: #fffde6; border: 2px dashed #f1c40f; border-radius: 12px; margin-bottom: 25px; animation: popIn 0.5s ease-out forwards; }
-        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .medal-icon { font-size: 4em; display: inline-block; animation: rotateMedal 2s ease-in-out infinite alternate; }
-        @keyframes rotateMedal { 0% { transform: rotate(-5deg); } 100% { transform: rotate(5deg); } }
+        .medal-zone { display: none; text-align: center; padding: 20px; background: #fffde6; border: 2px dashed #f1c40f; border-radius: 12px; margin-bottom: 25px; }
+        .medal-icon { font-size: 4em; display: inline-block; }
         .medal-title { font-size: 1.3em; font-weight: bold; color: #b78a00; margin: 10px 0 5px 0; }
         
         /* リストのカードスタイル */
@@ -38,15 +36,19 @@
         .tree-card.visited { border-color: #cbd6c8; background-color: #f9fbf8; }
         .tree-card.visited::after { content: "✓ 見学済"; position: absolute; top: 10px; right: 10px; background: rgba(85, 107, 47, 0.9); color: white; padding: 3px 10px; font-size: 0.75em; font-weight: bold; border-radius: 20px; z-index: 2; }
         
-        /* 画像表示エリア */
-        .tree-image-box { width: 100%; height: 180px; background-color: #eaeaea; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 0.9em; position: relative; }
-        .tree-image { width: 100%; height: 100%; object-fit: cover; }
+        /* 【新デザイン】カード上部の「特性・性質」解説エリア */
+        .tree-nature-box { padding: 15px; background-color: #f4f6f2; border-bottom: 1px solid #e6ebd8; font-size: 0.85em; color: #4e5746; line-height: 1.6; flex-shrink: 0; min-height: 80px; display: flex; flex-direction: column; justify-content: center; }
+        .nature-title { font-weight: bold; color: #465a26; margin-bottom: 3px; display: flex; align-items: center; gap: 4px; }
         
         .tree-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
         .tree-number { font-size: 0.75em; color: #556b2f; font-weight: bold; background: #f0f4e9; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; align-self: flex-start; }
-        .tree-title { font-size: 1.2em; font-weight: bold; margin: 5px 0; color: #2c4c38; }
+        .tree-title { font-size: 1.2em; font-weight: bold; margin: 2px 0 5px 0; color: #2c4c38; line-height: 1.4; }
+        
+        /* 学名用のイタリックスタイル */
+        .tree-scientific-name { font-size: 0.8em; color: #777; font-style: italic; margin-top: -4px; margin-bottom: 10px; font-family: Georgia, serif; }
+        
         .tree-meta { font-size: 0.85em; color: #666; margin-bottom: 10px; line-height: 1.5; background: #fafafa; padding: 8px 12px; border-radius: 6px; }
-        .tree-desc { font-size: 0.85em; color: #555; margin-top: 5px; line-height: 1.6; flex-grow: 1; }
+        .tree-desc { font-size: 0.85em; color: #555; margin-top: 5px; line-height: 1.6; flex-grow: 1; border-top: 1px dashed #eee; padding-top: 10px; }
         .distance-badge { font-weight: bold; color: #d35400; font-size: 0.9em; margin-bottom: 10px; display: inline-block; }
         
         .card-actions { margin-top: 15px; display: flex; gap: 10px; }
@@ -70,7 +72,7 @@
 
     <div class="content-box">
         <h2>🌳 仙台市 保存樹木巡りラリー</h2>
-        <p>仙台市の歴史ある「保存樹木」を巡り、地域の豊かな緑と歴史に触れる特設ウォークラリーです。</p>
+        <p>仙台市の歴史ある「保存樹木」を巡り、地域の豊かな緑と歴史に触れる特設ウォークラリーです。各樹木の植物学的特性や学名もあわせてお楽しみいただけます。</p>
         
         <div class="warning-box">
             <strong>⚠️ 見学時の大切なお願い・マナー</strong>
@@ -110,7 +112,7 @@
 
         let treeData = [];
         let userLocation = null;
-        let watchId = null; // リアルタイム監視用
+        let watchId = null;
         const STORAGE_KEY = 'gin7_visited_trees';
 
         function getVisitedTrees() {
@@ -191,21 +193,40 @@
                         `<span class="distance-badge">🧭 現在地から約 ${Math.round(dist)} m</span>`;
                 }
 
-                // 【追加機能】画像URLの取得と判定（列名が「画像」でも「image」でも対応）
-                const imgPath = item['画像'] || item['image'] || '';
-                let imageHtml = `<div class="tree-image-box">📷 NO IMAGE</div>`;
-                if (imgPath && imgPath.trim() !== '') {
-                    imageHtml = `<div class="tree-image-box"><img src="${imgPath}" class="tree-image" alt="${item.樹種名}" onerror="this.parentElement.innerHTML='📷 画像エラー'"></div>`;
+                // 【特性・性質】の取得とHTML生成（無ければ優しい案内文を表示）
+                const natureText = item['特性・性質'] || item['特性'] || item['性質'] || '';
+                let natureHtml = '';
+                if (natureText && natureText.trim() !== '') {
+                    natureHtml = `
+                        <div class="tree-nature-box">
+                            <div class="nature-title">🌿 樹木の特性・性質</div>
+                            <div>${natureText}</div>
+                        </div>
+                    `;
+                } else {
+                    natureHtml = `
+                        <div class="tree-nature-box" style="color:#999; font-style:italic;">
+                            <div>🌿 植物学的解説を準備中...</div>
+                        </div>
+                    `;
+                }
+
+                // 【学名】の取得（あれば樹木名の下にイタリック体でカッコよく表示）
+                const scientificName = item['学名'] || '';
+                let scientificHtml = '';
+                if (scientificName && scientificName.trim() !== '') {
+                    scientificHtml = `<div class="tree-scientific-name">${scientificName}</div>`;
                 }
 
                 const mapUrl = `https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`;
 
                 grid.innerHTML += `
                     <div class="${cardClass}">
-                        ${imageHtml}
+                        ${natureHtml}
                         <div class="tree-info">
                             <span class="tree-number">指定第 ${item.指定番号} 号</span>
                             <span class="tree-title">${item['🌳つうしょう名称'] || item['通称・名称'] || item.樹種名 || '保存樹木'}</span>
+                            ${scientificHtml}
                             ${distanceText}
                             <div class="tree-meta">
                                 <b>樹種:</b> ${item.樹種名 || '不明'}<br>
@@ -213,7 +234,7 @@
                                 <b>推定樹齢:</b> ${item.推定樹齢 || '-'}<br>
                                 <b>所在地:</b> ${item.所在地 || '-'}
                             </div>
-                            <p class="tree-desc">${item.説明 || ''}</p>
+                            <p class="tree-desc"><b>🔍 由緒・エピソード:</b><br>${item.説明 || '情報なし'}</p>
                             <div class="card-actions">
                                 <button onclick="toggleVisit('${item.指定番号}')" class="${btnClass}">${btnText}</button>
                                 <a href="${mapUrl}" target="_blank" class="btn-map">🗺 地図アプリ</a>
@@ -234,7 +255,6 @@
             }
         });
 
-        // 【位置ズレ徹底対策】単発取得ではなく、移動をリアルタイム追跡する watchPosition に切り替え
         document.getElementById('btn-gps').addEventListener('click', function() {
             const statusText = document.getElementById('gps-status');
             if (!navigator.geolocation) {
@@ -244,7 +264,6 @@
 
             statusText.innerText = "高精度GPS信号を探しています（移動すると自動更新されます）...";
 
-            // 既存の監視があれば一度クリアして完全リフレッシュ
             if (watchId !== null) {
                 navigator.geolocation.clearWatch(watchId);
             }
@@ -262,9 +281,9 @@
                     statusText.innerText = "位置情報の取得に失敗しました。電波の良い屋外や、Wi-FiをONにしてお試しください。";
                 },
                 { 
-                    enableHighAccuracy: true, // 最高精度を強制
+                    enableHighAccuracy: true,
                     timeout: 15000, 
-                    maximumAge: 0 // キャッシュ（古いデータ）を絶対に無視して今現在の場所を取る
+                    maximumAge: 0
                 }
             );
         });
