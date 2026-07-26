@@ -242,7 +242,7 @@
         }
 
         // CSVデータの読み込み処理
-        if (treeCsvUrl === 'ここにコピーしたURLを貼り付け' || !treeCsvUrl.startsWith('http')) {
+        if (treeCsvUrl === 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQgvjmVoKVvWiLs3mFuDu8jCovUXu2ruDhvpL_AtJ2Nw18AT6y1_o75-U9GDGEyeq6uGToXWzuz0Z3a/pub?gid=0&single=true&output=csv' || !treeCsvUrl.startsWith('http')) {
             document.getElementById('tree-grid').innerHTML = '<p class="loading-text" style="color:#d35400;">【設定エラー】HTMLコード内の「treeCsvUrl」にスプレッドシートのURLが正しく設定されていません。</p>';
             document.getElementById('progress-text').innerText = '現在の達成度: 設定エラー';
         } else {
