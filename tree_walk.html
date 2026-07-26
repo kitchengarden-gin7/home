@@ -42,7 +42,7 @@
         .tree-card.visited { border-color: #cbd6c8; background-color: #f9fbf8; }
         .tree-card.visited::after { content: "✓ 見学済"; position: absolute; top: 10px; right: 10px; background: rgba(85, 107, 47, 0.9); color: white; padding: 3px 10px; font-size: 0.75em; font-weight: bold; border-radius: 20px; }
         .tree-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .tree-number { font-size: 0.75em; color: #556b2f; font-weight: bold; background: #f0f4e9; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; align-self: flex-start; }
+        .tree-number { font-size: 0.75em; color: #556b2f; font-weight: bold; background: #f0f4e9; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; align-start: flex-start; }
         .tree-title { font-size: 1.2em; font-weight: bold; margin: 5px 0; color: #2c4c38; }
         .tree-meta { font-size: 0.85em; color: #666; margin-bottom: 10px; line-height: 1.5; background: #fafafa; padding: 8px 12px; border-radius: 6px; }
         .tree-desc { font-size: 0.85em; color: #555; margin-top: 5px; line-height: 1.6; flex-grow: 1; }
@@ -50,13 +50,12 @@
         
         /* カード内のボタン類 */
         .card-actions { margin-top: 15px; display: flex; gap: 10px; }
-        .btn-visit { background: #8fbc8f; flex: 1; font-size: 13px; padding: 8px; border-radius: 5px; text-align: center; }
+        .btn-visit { background: #8fbc8f; flex: 1; font-size: 13px; padding: 8px; border-radius: 5px; text-align: center; color: white; border: none; cursor: pointer; }
         .btn-visit.active { background: #556b2f; }
         .btn-map { background: #e9ede8; color: #556b2f; border: 1px solid #cbd6c8; font-size: 13px; padding: 8px; border-radius: 5px; text-align: center; text-decoration: none; flex: 1; font-weight: bold; }
         .btn-map:hover { background: #dfede2; }
         
         footer { text-align: center; margin-top: 50px; padding: 20px; color: #888; font-size: 0.8em; border-top: 1px solid #eee; }
-        
         .loading-text { text-align: center; grid-column: 1/-1; padding: 40px 0; color: #666; }
     </style>
 </head>
@@ -115,20 +114,18 @@
     <!-- CSV読み込み用ライブラリ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
-        // 【重要】ここにスプレッドシートからコピーした公開URL（CSV）を貼り付けてください
+        // 正しく公開URLがセットされています
         const treeCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQgvjmVoKVvWiLs3mFuDu8jCovUXu2ruDhvpL_AtJ2Nw18AT6y1_o75-U9GDGEyeq6uGToXWzuz0Z3a/pub?gid=0&single=true&output=csv';
 
         let treeData = [];
         let userLocation = null;
         const STORAGE_KEY = 'gin7_visited_trees';
 
-        // 訪問履歴をローカルストレージから読み込む
         function getVisitedTrees() {
             const stored = localStorage.getItem(STORAGE_KEY);
             return stored ? JSON.parse(stored) : [];
         }
 
-        // 訪問履歴を保存・反転する
         function toggleVisit(treeId) {
             let visited = getVisitedTrees();
             const index = visited.indexOf(String(treeId));
@@ -141,10 +138,9 @@
             updateStatusAndUI();
         }
 
-        // 二点間の緯度経度から距離(m)を計算する（ヒュベニの公式）
         function calculateDistance(lat1, lng1, lat2, lng2) {
             function rad(x) { return x * Math.PI / 180; }
-            const R = 6378137; // 地球の半径(m)
+            const R = 6378137;
             const dLat = rad(lat2 - lat1);
             const dLng = rad(lng2 - lng1);
             const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -154,7 +150,6 @@
             return R * c;
         }
 
-        // 画面とステータスの更新
         function updateStatusAndUI() {
             if (treeData.length === 0) return;
 
@@ -162,29 +157,24 @@
             const total = treeData.length;
             const count = treeData.filter(t => visited.includes(String(t.指定番号))).length;
             
-            // 進捗バーの更新
             const percent = total > 0 ? (count / total) * 100 : 0;
             document.getElementById('progress-bar').style.width = percent + '%';
             document.getElementById('progress-text').innerText = `現在の達成度: ${count} / ${total} 箇所 (${Math.round(percent)}%)`;
 
-            // 金メダルの判定
             if (count === total && total > 0) {
                 document.getElementById('medal-zone').style.display = 'block';
             } else {
                 document.getElementById('medal-zone').style.display = 'none';
             }
 
-            // 各カードの表示更新
             renderGrid();
         }
 
-        // データリストの描画
         function renderGrid() {
             const grid = document.getElementById('tree-grid');
             grid.innerHTML = '';
             const visited = getVisitedTrees();
 
-            // 距離データがある場合は近い順、ない場合は指定番号順
             let displayData = [...treeData];
             if (userLocation) {
                 displayData.forEach(item => {
@@ -194,8 +184,6 @@
                     );
                 });
                 displayData.sort((a, b) => a._distance - b._distance);
-                // ポケモンGO風に「近い3箇所」を目立たせる場合は、必要に応じてここで絞り込みも可能です。
-                // 今回は全件を近い順に並び替えて表示します。
             } else {
                 displayData.sort((a, b) => parseInt(a.指定番号) - parseInt(b.指定番号));
             }
@@ -206,7 +194,6 @@
                 const btnText = isVisited ? '✓ 見学解除' : '📍 見学済にする';
                 const btnClass = isVisited ? 'btn btn-visit' : 'btn btn-visit active';
                 
-                // 距離の表示テキスト
                 let distanceText = '';
                 if (userLocation && item._distance !== undefined) {
                     const dist = item._distance;
@@ -215,22 +202,21 @@
                         `<span class="distance-badge">🧭 現在地から約 ${Math.round(dist)} m</span>`;
                 }
 
-                // Googleマップナビ用のURL
                 const mapUrl = `https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`;
 
                 grid.innerHTML += `
                     <div class="${cardClass}">
                         <div class="tree-info">
                             <span class="tree-number">指定第 ${item.指定番号} 号</span>
-                            <span class="tree-title">${item.🌳つうしょう名称 || item['通称・名称'] || item.樹種名}</span>
+                            <span class="tree-title">${item['🌳つうしょう名称'] || item['通称・名称'] || item.樹種名 || '保存樹木'}</span>
                             ${distanceText}
                             <div class="tree-meta">
-                                <b>樹種:</b> ${item.樹種名}<br>
-                                <b>樹高/幹周:</b> ${item.樹高} / ${item.幹周}<br>
-                                <b>推定樹齢:</b> ${item.推定樹齢}<br>
-                                <b>所在地:</b> ${item.所在地}
+                                <b>樹種:</b> ${item.樹種名 || '不明'}<br>
+                                <b>樹高/幹周:</b> ${item.樹高 || '-'} / ${item.幹周 || '-'}<br>
+                                <b>推定樹齢:</b> ${item.推定樹齢 || '-'}<br>
+                                <b>所在地:</b> ${item.所在地 || '-'}
                             </div>
-                            <p class="tree-desc">${item.説明}</p>
+                            <p class="tree-desc">${item.説明 || ''}</p>
                             <div class="card-actions">
                                 <button onclick="toggleVisit('${item.指定番号}')" class="${btnClass}">${btnText}</button>
                                 <a href="${mapUrl}" target="_blank" class="btn-map">🗺 地図アプリ</a>
@@ -241,26 +227,21 @@
             });
         }
 
-        // CSVデータの読み込み処理
-        if (treeCsvUrl === 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQgvjmVoKVvWiLs3mFuDu8jCovUXu2ruDhvpL_AtJ2Nw18AT6y1_o75-U9GDGEyeq6uGToXWzuz0Z3a/pub?gid=0&single=true&output=csv' || !treeCsvUrl.startsWith('http')) {
-            document.getElementById('tree-grid').innerHTML = '<p class="loading-text" style="color:#d35400;">【設定エラー】HTMLコード内の「treeCsvUrl」にスプレッドシートのURLが正しく設定されていません。</p>';
-            document.getElementById('progress-text').innerText = '現在の達成度: 設定エラー';
-        } else {
-            Papa.parse(treeCsvUrl, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    treeData = results.data.filter(item => item.指定番号 && item.指定番号.trim() !== "");
-                    updateStatusAndUI();
-                },
-                error: function() {
-                    document.getElementById('tree-grid').innerHTML = '<p class="loading-text">データの読み込みに失敗しました。スプレッドシートのWeb公開設定をご確認ください。</p>';
-                }
-            });
-        }
+        // 不必要な判定を取り除き、シンプルに読み込む形に変更しました
+        Papa.parse(treeCsvUrl, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                treeData = results.data.filter(item => item.指定番号 && String(item.指定番号).trim() !== "");
+                updateStatusAndUI();
+            },
+            error: function() {
+                document.getElementById('tree-grid').innerHTML = '<p class="loading-text">データの読み込みに失敗しました。ネットの接続状況をご確認ください。</p>';
+            }
+        });
 
-        // GPS位置情報の取得イベント
+        // 位置情報のセキュリティブロックを回避するマイルドな設定に修正しました
         document.getElementById('btn-gps').addEventListener('click', function() {
             const statusText = document.getElementById('gps-status');
             if (!navigator.geolocation) {
@@ -268,7 +249,7 @@
                 return;
             }
 
-            statusText.innerText = "GPS衛生から現在地を取得中...";
+            statusText.innerText = "現在地を取得中...";
 
             navigator.geolocation.getCurrentPosition(
                 function(position) {
@@ -282,20 +263,14 @@
                 function(error) {
                     switch(error.code) {
                         case error.PERMISSION_DENIED:
-                            statusText.innerText = "位置情報の利用が許可されませんでした。ブラウザの設定をご確認ください。";
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            statusText.innerText = "位置情報が取得できませんでした（電波状況をご確認ください）。";
-                            break;
-                        case error.TIMEOUT:
-                            statusText.innerText = "位置情報の取得がタイムアウトしました。";
+                            statusText.innerText = "位置情報の利用が許可されませんでした。設定をご確認ください。";
                             break;
                         default:
-                            statusText.innerText = "位置情報の取得中にエラーが発生しました。";
+                            statusText.innerText = "現在地を取得できませんでした。電波の良い場所でお試しください。";
                             break;
                     }
                 },
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                { enableHighAccuracy: false, timeout: 10000, maximumAge: 30000 }
             );
         });
     </script>
