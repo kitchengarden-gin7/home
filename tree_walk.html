@@ -5,25 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>仙台市 保存樹木巡り - KITCHEN GARDEN 銀七</title>
     <style>
-        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #3d4439; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #fdfdfb; }
-        header { text-align: center; padding: 30px 20px; background-color: #556b2f; color: white; border-radius: 15px; margin-bottom: 20px; }
-        h1 { margin: 0; font-size: 1.8em; letter-spacing: 0.15em; }
-        nav { text-align: center; margin-bottom: 30px; }
-        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 15px; padding: 5px 10px; display: inline-block; }
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #3d4439; max-width: 900px; margin: 0 auto; padding: 15px; background-color: #f8f9f6; }
+        header { text-align: center; padding: 30px 20px; background: linear-gradient(135deg, #556b2f, #3d4e22); color: white; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        h1 { margin: 0; font-size: 1.6em; letter-spacing: 0.15em; }
+        nav { text-align: center; margin-bottom: 25px; background: white; padding: 10px; border-radius: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        nav a { text-decoration: none; color: #556b2f; font-weight: bold; margin: 0 10px; padding: 5px 8px; display: inline-block; font-size: 0.9em; }
         nav a:hover { border-bottom: 2px solid #556b2f; }
         
-        .content-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
-        h2 { color: #556b2f; border-bottom: 2px solid #cbd6c8; padding-bottom: 8px; font-size: 1.4em; margin-top: 10px; }
+        .content-box { background: white; padding: 25px 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-bottom: 25px; }
+        h2 { color: #556b2f; border-bottom: 2px solid #cbd6c8; padding-bottom: 8px; font-size: 1.3em; margin-top: 10px; }
         
-        .warning-box { background: #fff5f0; border-left: 4px solid #d35400; padding: 15px 20px; border-radius: 5px; margin-bottom: 25px; font-size: 0.9em; }
+        .warning-box { background: #fff5f0; border-left: 4px solid #d35400; padding: 12px 15px; border-radius: 6px; margin-bottom: 25px; font-size: 0.85em; line-height: 1.6; }
         .warning-box ul { margin: 5px 0 0 0; padding-left: 20px; }
         
-        .btn { display: inline-block; background: #556b2f; color: white; padding: 10px 25px; text-decoration: none; border-radius: 25px; font-weight: bold; border: none; cursor: pointer; transition: background 0.2s; font-size: 14px; }
+        .btn { display: inline-block; background: #556b2f; color: white; padding: 12px 25px; text-decoration: none; border-radius: 25px; font-weight: bold; border: none; cursor: pointer; transition: background 0.2s; font-size: 15px; }
         .btn:hover { background: #3d4e22; }
-        .btn-gps { background: #2c4c38; margin-bottom: 15px; width: 100%; max-width: 320px; display: block; margin-left: auto; margin-right: auto; }
+        .btn-gps { background: #2c4c38; margin-bottom: 15px; width: 100%; max-width: 320px; display: block; margin-left: auto; margin-right: auto; box-shadow: 0 4px 10px rgba(44,76,56,0.2); }
         
-        .status-container { text-align: center; background: #f0f4e9; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #cbd6c8; }
-        .progress-bar-bg { background: #e0e6db; height: 12px; border-radius: 6px; margin: 10px auto; max-width: 400px; overflow: hidden; }
+        .status-container { text-align: center; background: #f0f4e9; padding: 15px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #cbd6c8; }
+        .progress-bar-bg { background: #e0e6db; height: 10px; border-radius: 6px; margin: 10px auto; max-width: 400px; overflow: hidden; }
         .progress-bar { background: #556b2f; height: 100%; width: 0%; transition: width 0.5s ease; }
         
         .medal-zone { display: none; text-align: center; padding: 20px; background: #fffde6; border: 2px dashed #f1c40f; border-radius: 12px; margin-bottom: 25px; }
@@ -32,31 +32,38 @@
         
         /* リストのカードスタイル */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 10px 0; }
-        .tree-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 1px solid #eee; display: flex; flex-direction: column; transition: transform 0.2s; position: relative; }
-        .tree-card.visited { border-color: #cbd6c8; background-color: #f9fbf8; }
-        .tree-card.visited::after { content: "✓ 見学済"; position: absolute; top: 10px; right: 10px; background: rgba(85, 107, 47, 0.9); color: white; padding: 3px 10px; font-size: 0.75em; font-weight: bold; border-radius: 20px; z-index: 2; }
+        .tree-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 15px rgba(0,0,0,0.06); border: 1px solid #eaeaea; display: flex; flex-direction: column; transition: transform 0.2s; position: relative; }
+        .tree-card.visited { border-color: #cbd6c8; background-color: #fcfdfe; }
+        .tree-card.visited::after { content: "✓ 見学済"; position: absolute; top: 15px; right: 15px; background: rgba(85, 107, 47, 0.95); color: white; padding: 4px 12px; font-size: 0.75em; font-weight: bold; border-radius: 20px; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        /* カード上部の「特性・性質」解説エリア */
-        .tree-nature-box { padding: 15px; background-color: #f4f6f2; border-bottom: 1px solid #e6ebd8; font-size: 0.85em; color: #4e5746; line-height: 1.6; flex-shrink: 0; min-height: 80px; display: flex; flex-direction: column; justify-content: center; }
-        .nature-title { font-weight: bold; color: #465a26; margin-bottom: 3px; display: flex; align-items: center; gap: 4px; }
+        /* 【新デザイン】写真の代わりに気分を上げる「森の飾り帯」 */
+        .tree-top-bar { height: 40px; background: linear-gradient(90deg, #556b2f, #8fbc8f); flex-shrink: 0; }
         
         .tree-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .tree-number { font-size: 0.75em; color: #556b2f; font-weight: bold; background: #f0f4e9; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; align-self: flex-start; }
-        .tree-title { font-size: 1.2em; font-weight: bold; margin: 2px 0 5px 0; color: #2c4c38; line-height: 1.4; }
+        .tree-number { font-size: 0.75em; color: #556b2f; font-weight: bold; background: #f0f4e9; padding: 2px 10px; border-radius: 10px; display: inline-block; margin-bottom: 10px; align-self: flex-start; }
         
-        /* 【新スタイル】学名と科名を表示するエリア */
-        .tree-scientific-zone { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: -2px; margin-bottom: 10px; font-size: 0.8em; }
-        .scientific-name { color: #777; font-style: italic; font-family: Georgia, serif; }
-        .family-name { color: #465a26; background: #e6ebd8; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; font-weight: 500; }
+        /* 【新デザイン】通称・名称をインパクト大に */
+        .tree-title { font-size: 1.45em; font-weight: 800; margin: 2px 0 6px 0; color: #1e3325; line-height: 1.35; letter-spacing: 0.03em; }
         
-        .tree-meta { font-size: 0.85em; color: #666; margin-bottom: 10px; line-height: 1.5; background: #fafafa; padding: 8px 12px; border-radius: 6px; }
-        .tree-desc { font-size: 0.85em; color: #555; margin-top: 5px; line-height: 1.6; flex-grow: 1; border-top: 1px dashed #eee; padding-top: 10px; }
-        .distance-badge { font-weight: bold; color: #d35400; font-size: 0.9em; margin-bottom: 10px; display: inline-block; }
+        /* 科名と学名の表示エリア */
+        .tree-scientific-zone { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 0.8em; }
+        .scientific-name { color: #666; font-style: italic; font-family: Georgia, serif; }
+        .family-name { color: #465a26; background: #e6ebd8; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-weight: bold; }
         
-        .card-actions { margin-top: 15px; display: flex; gap: 10px; }
-        .btn-visit { background: #8fbc8f; flex: 1; font-size: 13px; padding: 8px; border-radius: 5px; text-align: center; color: white; border: none; cursor: pointer; font-weight: bold; }
+        .tree-meta { font-size: 0.85em; color: #555; margin-bottom: 15px; line-height: 1.6; background: #f7f8f5; padding: 10px 14px; border-radius: 8px; border: 1px solid #edf0ec; }
+        .distance-badge { font-weight: bold; color: #d35400; font-size: 0.95em; margin-bottom: 12px; display: inline-block; }
+        
+        /* 由緒・エピソード（真ん中に配置） */
+        .tree-desc { font-size: 0.88em; color: #333; margin-top: 5px; margin-bottom: 15px; line-height: 1.65; flex-grow: 1; }
+        
+        /* 【新デザイン】一番下に移動した「特性・性質」解説エリア */
+        .tree-nature-box { padding: 12px 14px; background-color: #f4f6f2; border-radius: 8px; border: 1px solid #e6ebd8; font-size: 0.82em; color: #4e5746; line-height: 1.6; margin-bottom: 15px; }
+        .nature-title { font-weight: bold; color: #465a26; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+        
+        .card-actions { margin-top: auto; display: flex; gap: 10px; }
+        .btn-visit { background: #8fbc8f; flex: 1; font-size: 13px; padding: 10px; border-radius: 8px; text-align: center; color: white; border: none; cursor: pointer; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .btn-visit.active { background: #556b2f; }
-        .btn-map { background: #e9ede8; color: #556b2f; border: 1px solid #cbd6c8; font-size: 13px; padding: 8px; border-radius: 5px; text-align: center; text-decoration: none; flex: 1; font-weight: bold; }
+        .btn-map { background: #fdfdfb; color: #556b2f; border: 1px solid #cbd6c8; font-size: 13px; padding: 10px; border-radius: 8px; text-align: center; text-decoration: none; flex: 1; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
         .btn-map:hover { background: #dfede2; }
         
         footer { text-align: center; margin-top: 50px; padding: 20px; color: #888; font-size: 0.8em; border-top: 1px solid #eee; }
@@ -195,7 +202,7 @@
                         `<span class="distance-badge">🧭 現在地から約 ${Math.round(dist)} m</span>`;
                 }
 
-                // 特性・性質の取得
+                // 特性・性質の取得とHTML生成
                 const natureText = item['特性・性質'] || item['特性'] || item['性質'] || '';
                 let natureHtml = '';
                 if (natureText && natureText.trim() !== '') {
@@ -203,12 +210,6 @@
                         <div class="tree-nature-box">
                             <div class="nature-title">🌿 樹木の特性・性質</div>
                             <div>${natureText}</div>
-                        </div>
-                    `;
-                } else {
-                    natureHtml = `
-                        <div class="tree-nature-box" style="color:#999; font-style:italic;">
-                            <div>🌿 植物学的解説を準備中...</div>
                         </div>
                     `;
                 }
@@ -233,10 +234,10 @@
 
                 grid.innerHTML += `
                     <div class="${cardClass}">
-                        ${natureHtml}
+                        <div class="tree-top-bar"></div>
                         <div class="tree-info">
                             <span class="tree-number">指定第 ${item.指定番号} 号</span>
-                            <span class="tree-title">${item['🌳つうしょう名称'] || item['通称・名称'] || item.樹種名 || '保存樹木'}</span>
+                            <div class="tree-title">${item['🌳つうしょう名称'] || item['通称・名称'] || item.樹種名 || '保存樹木'}</div>
                             ${scientificZoneHtml}
                             ${distanceText}
                             <div class="tree-meta">
@@ -245,7 +246,8 @@
                                 <b>推定樹齢:</b> ${item.推定樹齢 || '-'}<br>
                                 <b>所在地:</b> ${item.所在地 || '-'}
                             </div>
-                            <p class="tree-desc"><b>🔍 由緒・エピソード:</b><br>${item.説明 || '情報なし'}</p>
+                            <div class="tree-desc"><strong>🔍 由緒・エピソード:</strong><br>${item.説明 || '情報なし'}</div>
+                            ${natureHtml}
                             <div class="card-actions">
                                 <button onclick="toggleVisit('${item.指定番号}')" class="${btnClass}">${btnText}</button>
                                 <a href="${mapUrl}" target="_blank" class="btn-map">🗺 地図アプリ</a>
