@@ -15,21 +15,17 @@
         .content-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
         h2 { color: #556b2f; border-bottom: 2px solid #cbd6c8; padding-bottom: 8px; font-size: 1.4em; margin-top: 10px; }
         
-        /* 警告・注意書きスタイル */
         .warning-box { background: #fff5f0; border-left: 4px solid #d35400; padding: 15px 20px; border-radius: 5px; margin-bottom: 25px; font-size: 0.9em; }
         .warning-box ul { margin: 5px 0 0 0; padding-left: 20px; }
         
-        /* ボタン共通スタイル */
         .btn { display: inline-block; background: #556b2f; color: white; padding: 10px 25px; text-decoration: none; border-radius: 25px; font-weight: bold; border: none; cursor: pointer; transition: background 0.2s; font-size: 14px; }
         .btn:hover { background: #3d4e22; }
         .btn-gps { background: #2c4c38; margin-bottom: 15px; width: 100%; max-width: 320px; display: block; margin-left: auto; margin-right: auto; }
         
-        /* ステータス・メダル表示 */
         .status-container { text-align: center; background: #f0f4e9; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #cbd6c8; }
         .progress-bar-bg { background: #e0e6db; height: 12px; border-radius: 6px; margin: 10px auto; max-width: 400px; overflow: hidden; }
         .progress-bar { background: #556b2f; height: 100%; width: 0%; transition: width 0.5s ease; }
         
-        /* メダルアニメーション用スタイル */
         .medal-zone { display: none; text-align: center; padding: 20px; background: #fffde6; border: 2px dashed #f1c40f; border-radius: 12px; margin-bottom: 25px; animation: popIn 0.5s ease-out forwards; }
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .medal-icon { font-size: 4em; display: inline-block; animation: rotateMedal 2s ease-in-out infinite alternate; }
@@ -40,17 +36,21 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 10px 0; }
         .tree-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 1px solid #eee; display: flex; flex-direction: column; transition: transform 0.2s; position: relative; }
         .tree-card.visited { border-color: #cbd6c8; background-color: #f9fbf8; }
-        .tree-card.visited::after { content: "✓ 見学済"; position: absolute; top: 10px; right: 10px; background: rgba(85, 107, 47, 0.9); color: white; padding: 3px 10px; font-size: 0.75em; font-weight: bold; border-radius: 20px; }
+        .tree-card.visited::after { content: "✓ 見学済"; position: absolute; top: 10px; right: 10px; background: rgba(85, 107, 47, 0.9); color: white; padding: 3px 10px; font-size: 0.75em; font-weight: bold; border-radius: 20px; z-index: 2; }
+        
+        /* 画像表示エリア */
+        .tree-image-box { width: 100%; height: 180px; background-color: #eaeaea; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 0.9em; position: relative; }
+        .tree-image { width: 100%; height: 100%; object-fit: cover; }
+        
         .tree-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .tree-number { font-size: 0.75em; color: #556b2f; font-weight: bold; background: #f0f4e9; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; align-start: flex-start; }
+        .tree-number { font-size: 0.75em; color: #556b2f; font-weight: bold; background: #f0f4e9; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; align-self: flex-start; }
         .tree-title { font-size: 1.2em; font-weight: bold; margin: 5px 0; color: #2c4c38; }
         .tree-meta { font-size: 0.85em; color: #666; margin-bottom: 10px; line-height: 1.5; background: #fafafa; padding: 8px 12px; border-radius: 6px; }
         .tree-desc { font-size: 0.85em; color: #555; margin-top: 5px; line-height: 1.6; flex-grow: 1; }
         .distance-badge { font-weight: bold; color: #d35400; font-size: 0.9em; margin-bottom: 10px; display: inline-block; }
         
-        /* カード内のボタン類 */
         .card-actions { margin-top: 15px; display: flex; gap: 10px; }
-        .btn-visit { background: #8fbc8f; flex: 1; font-size: 13px; padding: 8px; border-radius: 5px; text-align: center; color: white; border: none; cursor: pointer; }
+        .btn-visit { background: #8fbc8f; flex: 1; font-size: 13px; padding: 8px; border-radius: 5px; text-align: center; color: white; border: none; cursor: pointer; font-weight: bold; }
         .btn-visit.active { background: #556b2f; }
         .btn-map { background: #e9ede8; color: #556b2f; border: 1px solid #cbd6c8; font-size: 13px; padding: 8px; border-radius: 5px; text-align: center; text-decoration: none; flex: 1; font-weight: bold; }
         .btn-map:hover { background: #dfede2; }
@@ -70,39 +70,32 @@
 
     <div class="content-box">
         <h2>🌳 仙台市 保存樹木巡りラリー</h2>
-        <p>仙台市の歴史ある「保存樹木」を巡り、地域の豊かな緑と歴史に触れる特設ウォークラリーです。アプリのインストールは不要で、スマートフォンのブラウザだけで手軽に遊べます。</p>
+        <p>仙台市の歴史ある「保存樹木」を巡り、地域の豊かな緑と歴史に触れる特設ウォークラリーです。</p>
         
-        <!-- 安全のための注意書き -->
         <div class="warning-box">
             <strong>⚠️ 見学時の大切なお願い・マナー</strong>
             <ul>
-                <li>保存樹木の中には、個人宅の敷地内（居久根など）や寺社・法人の私有地にあるものも含まれます。必ず<b>敷地外の公道など、安全で迷惑にならない場所から見学</b>してください。</li>
+                <li>保存樹木の中には個人宅や法人の私有地にあるものも含まれます。必ず<b>敷地外の公道など、安全で迷惑にならない場所から見学</b>してください。</li>
                 <li>近隣住民の方々の迷惑となるような大声での会話や、路上駐車、夜間の訪問は絶対におやめください。</li>
-                <li>歩きながらのスマートフォン操作（歩きスマホ）は大変危険です。画面を確認する際は必ず立ち止まって周囲の安全を確認してください。</li>
             </ul>
         </div>
 
-        <!-- 達成ステータス画面 -->
         <div class="status-container">
             <div id="progress-text" style="font-weight: bold;">現在の達成度: 読み込み中...</div>
             <div class="progress-bar-bg">
                 <div id="progress-bar" class="progress-bar"></div>
             </div>
-            <p style="font-size: 0.85em; color: #666; margin: 5px 0 0 0;">現地を訪れたら、各樹木の「見学済にする」ボタンを押して記録を残しましょう！</p>
         </div>
 
-        <!-- 金メダル獲得ゾーン -->
         <div id="medal-zone" class="medal-zone">
             <div class="medal-icon">🥇</div>
             <div class="medal-title">完全制覇！金メダル獲得</div>
-            <p style="font-size: 0.9em; margin: 5px 0 0 0; color: #555;">すべての保存樹木の見学を達成しました！素晴らしい探究心と緑への愛に敬意を表します。</p>
+            <p style="font-size: 0.9em; margin: 5px 0 0 0; color: #555;">すべての保存樹木の見学を達成しました！</p>
         </div>
 
-        <!-- GPS起動ボタン -->
         <button id="btn-gps" class="btn btn-gps">🧭 現在地から近い順に探す</button>
         <div id="gps-status" style="text-align: center; font-size: 0.85em; color: #666; margin-top: -10px; margin-bottom: 20px;"></div>
 
-        <!-- 樹木リスト表示領域 -->
         <h2>🌳 周辺の保存樹木</h2>
         <div id="tree-grid" class="grid">
             <p class="loading-text">樹木データを読み込み中...</p>
@@ -111,14 +104,13 @@
 
     <footer>&copy; 2026 KITCHEN GARDEN 銀七</footer>
 
-    <!-- CSV読み込み用ライブラリ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
-        // 正しく公開URLがセットされています
         const treeCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQgvjmVoKVvWiLs3mFuDu8jCovUXu2ruDhvpL_AtJ2Nw18AT6y1_o75-U9GDGEyeq6uGToXWzuz0Z3a/pub?gid=0&single=true&output=csv';
 
         let treeData = [];
         let userLocation = null;
+        let watchId = null; // リアルタイム監視用
         const STORAGE_KEY = 'gin7_visited_trees';
 
         function getVisitedTrees() {
@@ -152,11 +144,9 @@
 
         function updateStatusAndUI() {
             if (treeData.length === 0) return;
-
             const visited = getVisitedTrees();
             const total = treeData.length;
             const count = treeData.filter(t => visited.includes(String(t.指定番号))).length;
-            
             const percent = total > 0 ? (count / total) * 100 : 0;
             document.getElementById('progress-bar').style.width = percent + '%';
             document.getElementById('progress-text').innerText = `現在の達成度: ${count} / ${total} 箇所 (${Math.round(percent)}%)`;
@@ -166,7 +156,6 @@
             } else {
                 document.getElementById('medal-zone').style.display = 'none';
             }
-
             renderGrid();
         }
 
@@ -202,10 +191,18 @@
                         `<span class="distance-badge">🧭 現在地から約 ${Math.round(dist)} m</span>`;
                 }
 
+                // 【追加機能】画像URLの取得と判定（列名が「画像」でも「image」でも対応）
+                const imgPath = item['画像'] || item['image'] || '';
+                let imageHtml = `<div class="tree-image-box">📷 NO IMAGE</div>`;
+                if (imgPath && imgPath.trim() !== '') {
+                    imageHtml = `<div class="tree-image-box"><img src="${imgPath}" class="tree-image" alt="${item.樹種名}" onerror="this.parentElement.innerHTML='📷 画像エラー'"></div>`;
+                }
+
                 const mapUrl = `https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`;
 
                 grid.innerHTML += `
                     <div class="${cardClass}">
+                        ${imageHtml}
                         <div class="tree-info">
                             <span class="tree-number">指定第 ${item.指定番号} 号</span>
                             <span class="tree-title">${item['🌳つうしょう名称'] || item['通称・名称'] || item.樹種名 || '保存樹木'}</span>
@@ -227,7 +224,6 @@
             });
         }
 
-        // 不必要な判定を取り除き、シンプルに読み込む形に変更しました
         Papa.parse(treeCsvUrl, {
             download: true,
             header: true,
@@ -235,13 +231,10 @@
             complete: function(results) {
                 treeData = results.data.filter(item => item.指定番号 && String(item.指定番号).trim() !== "");
                 updateStatusAndUI();
-            },
-            error: function() {
-                document.getElementById('tree-grid').innerHTML = '<p class="loading-text">データの読み込みに失敗しました。ネットの接続状況をご確認ください。</p>';
             }
         });
 
-        // 位置情報のセキュリティブロックを回避するマイルドな設定に修正しました
+        // 【位置ズレ徹底対策】単発取得ではなく、移動をリアルタイム追跡する watchPosition に切り替え
         document.getElementById('btn-gps').addEventListener('click', function() {
             const statusText = document.getElementById('gps-status');
             if (!navigator.geolocation) {
@@ -249,28 +242,30 @@
                 return;
             }
 
-            statusText.innerText = "現在地を取得中...";
+            statusText.innerText = "高精度GPS信号を探しています（移動すると自動更新されます）...";
 
-            navigator.geolocation.getCurrentPosition(
+            // 既存の監視があれば一度クリアして完全リフレッシュ
+            if (watchId !== null) {
+                navigator.geolocation.clearWatch(watchId);
+            }
+
+            watchId = navigator.geolocation.watchPosition(
                 function(position) {
                     userLocation = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
-                    statusText.innerText = "現在地を認識しました。近い順に並び替えています。";
+                    statusText.innerText = `現在地を認識（誤差約 ${Math.round(position.coords.accuracy)}m）。近い順に並び替えました！`;
                     renderGrid();
                 },
                 function(error) {
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            statusText.innerText = "位置情報の利用が許可されませんでした。設定をご確認ください。";
-                            break;
-                        default:
-                            statusText.innerText = "現在地を取得できませんでした。電波の良い場所でお試しください。";
-                            break;
-                    }
+                    statusText.innerText = "位置情報の取得に失敗しました。電波の良い屋外や、Wi-FiをONにしてお試しください。";
                 },
-                { enableHighAccuracy: false, timeout: 10000, maximumAge: 0}
+                { 
+                    enableHighAccuracy: true, // 最高精度を強制
+                    timeout: 15000, 
+                    maximumAge: 0 // キャッシュ（古いデータ）を絶対に無視して今現在の場所を取る
+                }
             );
         });
     </script>
