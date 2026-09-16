@@ -1,1 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二人から始める地域通貨 - コミュニティ通貨システム</title>
+    <!-- スタイリング -->
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --primary-hover: #1b5e20;
+            --bg-color: #f4f6f8;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-sub: #666666;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            max-width: 600px;
+            width: 90%;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text-sub);
+            margin-bottom: 25px;
+        }
+
+        .description {
+            text-align: left;
+            line-height: 1.7;
+            color: var(--text-main);
+            margin-bottom: 35px;
+            font-size: 0.95rem;
+        }
+
+        .description p {
+            margin-bottom: 15px;
+        }
+
+        .features-box {
+            background-color: #f1f8e9;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px 20px;
+            margin: 20px 0;
+            text-align: left;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .features-box h3 {
+            margin: 0 0 8px 0;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .features-box ul {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 0.9rem;
+            color: var(--text-sub);
+        }
+
+        .btn-launch {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 15px 35px;
+            border-radius: 30px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-launch:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .footer-note {
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #999999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>二人から始める地域通貨</h1>
+        <div class="subtitle">〜 身近な仲間や地域で回す、独自のコミュニティ通貨システム 〜</div>
+
+        <div class="description">
+            <p>
+                このアプリは、特別な専門知識やシステムを必要とせず、<strong>たった二人からでも独自のコミュニティ通貨を発行・運用できる</strong>Webアプリケーションです。
+            </p>
+            <p>
+                バックエンドには使い慣れた<strong>Googleスプレッドシート</strong>を採用しており、データベースとしての安定性と手軽さを両立。誰でも簡単に自分たちだけの経済圏をスタートさせることができます。
+            </p>
+
+            <div class="features-box">
+                <h3>💡 主な特徴</h3>
+                <ul>
+                    <li>メンバー登録、トレード（受取・支払い）、出品・お願いの掲示板機能</li>
+                    <li>Googleスプレッドシート連携によるリアルタイムな残高・履歴管理</li>
+                    <li>コミュニティの活性化を促す管理者向けエアドロップ機能</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- リンクボタン（ご指定のURLを設定しています） -->
+        <a href="https://script.google.com/u/0/home/projects/1x_xXKaGp0OqaxChHbtdYIWCUURCnj0nl7l47K6IJJOeJ3HnfQIW1SaOJ/edit" target="_blank" class="btn-launch">
+            🚀 アプリ（GAS）を開く・管理画面へ
+        </a>
+
+        <div class="footer-note">
+            Google Apps Script & Google Sheets Powered
+        </div>
+    </div>
+
+</body>
+</html>
